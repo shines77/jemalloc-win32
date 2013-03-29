@@ -6,17 +6,17 @@ typedef struct malloc_mutex_s malloc_mutex_t;
 #ifdef _WIN32
 #  define MALLOC_MUTEX_INITIALIZER
 #elif (defined(JEMALLOC_OSSPIN))
-#  define MALLOC_MUTEX_INITIALIZER {0}
+#  define MALLOC_MUTEX_INITIALIZER      {0}
 #elif (defined(JEMALLOC_MUTEX_INIT_CB))
-#  define MALLOC_MUTEX_INITIALIZER {PTHREAD_MUTEX_INITIALIZER, NULL}
+#  define MALLOC_MUTEX_INITIALIZER      {PTHREAD_MUTEX_INITIALIZER, NULL}
 #else
 #  if (defined(PTHREAD_MUTEX_ADAPTIVE_NP) &&                \
        defined(PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP))
-#    define MALLOC_MUTEX_TYPE PTHREAD_MUTEX_ADAPTIVE_NP
-#    define MALLOC_MUTEX_INITIALIZER {PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP}
+#    define MALLOC_MUTEX_TYPE           PTHREAD_MUTEX_ADAPTIVE_NP
+#    define MALLOC_MUTEX_INITIALIZER    {PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP}
 #  else
-#    define MALLOC_MUTEX_TYPE PTHREAD_MUTEX_DEFAULT
-#    define MALLOC_MUTEX_INITIALIZER {PTHREAD_MUTEX_INITIALIZER}
+#    define MALLOC_MUTEX_TYPE           PTHREAD_MUTEX_DEFAULT
+#    define MALLOC_MUTEX_INITIALIZER    {PTHREAD_MUTEX_INITIALIZER}
 #  endif
 #endif
 
@@ -49,6 +49,7 @@ extern bool isthreaded;
 #endif
 
 bool    malloc_mutex_init(malloc_mutex_t *mutex);
+void    malloc_mutex_uninit(malloc_mutex_t *mutex);
 void    malloc_mutex_prefork(malloc_mutex_t *mutex);
 void    malloc_mutex_postfork_parent(malloc_mutex_t *mutex);
 void    malloc_mutex_postfork_child(malloc_mutex_t *mutex);

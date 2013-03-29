@@ -61,6 +61,8 @@ void MemoryPool_Test()
             je_free(p);
     }
 
+    je_uninit();
+
     dwUsedTime2 = GetTickCount() - dwStartTickCount;
     printf("Alloc Func : je_malloc()  Alloc Size: 1-%d\n", nMaxAlloc);
     printf("Alloc Count: %d\n", nMaxLoop);
