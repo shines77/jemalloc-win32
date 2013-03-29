@@ -80,12 +80,14 @@ int cpuinfo(int whole, unsigned long *kernel, unsigned long *user);
 /******************************************************************************/
 #ifdef JEMALLOC_H_INLINES
 
+#if 0
 static int g_cs_initialized;
 static CRITICAL_SECTION g_cs;
 static int g_sl;
 
 static long g_pagesize;
 static long g_regionsize;
+#endif
 
 #include <windows.h>
 

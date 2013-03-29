@@ -248,7 +248,7 @@ static const bool config_ivsalloc =
 #define QU(q)       ((uint64_t)q)
 
 #ifndef __DECONST
-#  define   __DECONST(type, var)    ((type)(uintptr_t)(const void *)(var))
+#  define __DECONST(type, var)  ((type)(uintptr_t)(const void *)(var))
 #endif
 
 #ifdef JEMALLOC_DEBUG
@@ -539,14 +539,14 @@ typedef struct {
 /******************************************************************************/
 #define JEMALLOC_H_EXTERNS
 
-extern bool opt_abort;
-extern bool opt_junk;
+extern bool     opt_abort;
+extern bool     opt_junk;
 extern size_t   opt_quarantine;
-extern bool opt_redzone;
-extern bool opt_utrace;
-extern bool opt_valgrind;
-extern bool opt_xmalloc;
-extern bool opt_zero;
+extern bool     opt_redzone;
+extern bool     opt_utrace;
+extern bool     opt_valgrind;
+extern bool     opt_xmalloc;
+extern bool     opt_zero;
 extern size_t   opt_narenas;
 
 /* Number of CPUs. */
@@ -658,7 +658,6 @@ malloc_tsd_funcs(JEMALLOC_ALWAYS_INLINE, arenas, arena_t *, NULL,
 JEMALLOC_ALWAYS_INLINE size_t
 s2u(size_t size)
 {
-
     if (size <= SMALL_MAXCLASS)
         return (arena_bin_info[SMALL_SIZE2BIN(size)].reg_size);
     if (size <= arena_maxclass)

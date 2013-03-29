@@ -1,5 +1,5 @@
 
-//#include <vld.h>
+#include <vld.h>
 
 #include <assert.h>
 #ifndef WIN32
@@ -60,6 +60,8 @@ void MemoryPool_Test()
         if (p)
             je_free(p);
     }
+
+    //je_uninit();
 
     dwUsedTime2 = GetTickCount() - dwStartTickCount;
     printf("Alloc Func : je_malloc()  Alloc Size: 1-%d\n", nMaxAlloc);

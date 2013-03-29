@@ -223,6 +223,7 @@
 #define jemalloc_prefork JEMALLOC_N(jemalloc_prefork)
 #define malloc_cprintf JEMALLOC_N(malloc_cprintf)
 #define malloc_mutex_init JEMALLOC_N(malloc_mutex_init)
+#define malloc_mutex_uninit JEMALLOC_N(malloc_mutex_uninit)
 #define malloc_mutex_lock JEMALLOC_N(malloc_mutex_lock)
 #define malloc_mutex_postfork_child JEMALLOC_N(malloc_mutex_postfork_child)
 #define malloc_mutex_postfork_parent JEMALLOC_N(malloc_mutex_postfork_parent)
