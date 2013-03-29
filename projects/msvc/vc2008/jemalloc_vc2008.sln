@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jemalloc", "jemalloc\jemalloc.vcproj", "{7BDF9983-516B-4825-9F3B-234BFAE15BBF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jemalloc_test", "jemalloc_test\jemalloc_test.vcproj", "{683686D4-7951-47CD-B891-72102323E8A7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7BDF9983-516B-4825-9F3B-234BFAE15BBF} = {7BDF9983-516B-4825-9F3B-234BFAE15BBF}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BDF9983-516B-4825-9F3B-234BFAE15BBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7BDF9983-516B-4825-9F3B-234BFAE15BBF}.Debug|Win32.Build.0 = Debug|Win32
+		{7BDF9983-516B-4825-9F3B-234BFAE15BBF}.Release|Win32.ActiveCfg = Release|Win32
+		{7BDF9983-516B-4825-9F3B-234BFAE15BBF}.Release|Win32.Build.0 = Release|Win32
+		{683686D4-7951-47CD-B891-72102323E8A7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{683686D4-7951-47CD-B891-72102323E8A7}.Debug|Win32.Build.0 = Debug|Win32
+		{683686D4-7951-47CD-B891-72102323E8A7}.Release|Win32.ActiveCfg = Release|Win32
+		{683686D4-7951-47CD-B891-72102323E8A7}.Release|Win32.Build.0 = Release|Win32
+		{7837A58A-B046-4D0D-8C06-4D5ADE6D2CEB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7837A58A-B046-4D0D-8C06-4D5ADE6D2CEB}.Debug|Win32.Build.0 = Debug|Win32
+		{7837A58A-B046-4D0D-8C06-4D5ADE6D2CEB}.Release|Win32.ActiveCfg = Release|Win32
+		{7837A58A-B046-4D0D-8C06-4D5ADE6D2CEB}.Release|Win32.Build.0 = Release|Win32
+		{6F49683B-3A03-47EA-81DE-EF005558AF37}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6F49683B-3A03-47EA-81DE-EF005558AF37}.Debug|Win32.Build.0 = Debug|Win32
+		{6F49683B-3A03-47EA-81DE-EF005558AF37}.Release|Win32.ActiveCfg = Release|Win32
+		{6F49683B-3A03-47EA-81DE-EF005558AF37}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
