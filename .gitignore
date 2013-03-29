@@ -12,6 +12,7 @@
 # /doc/jemalloc.html
 # /doc/jemalloc.3
 /lib/
+/tmp/
 /Makefile
 # /include/jemalloc/internal/jemalloc_internal\.h
 # /include/jemalloc/internal/size_classes\.h
