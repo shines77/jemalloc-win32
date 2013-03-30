@@ -1085,7 +1085,7 @@ prof_tdata_init(void)
     }
     ql_new(&prof_tdata->lru_ql);
 
-    prof_tdata->vec = imalloc(sizeof(void *) * PROF_BT_MAX);
+    prof_tdata->vec = (void **)imalloc(sizeof(void *) * PROF_BT_MAX);
     if (prof_tdata->vec == NULL) {
         ckh_delete(&prof_tdata->bt2cnt);
         idalloc(prof_tdata);

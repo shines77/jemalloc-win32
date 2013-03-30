@@ -23,8 +23,11 @@
 /test/*.[od]
 /test/*.out
 /test/[a-zA-Z_]*
+!test/*.h
 !test/*.c
+!test/*.cpp
 !test/*.exp
+bin/*.exp
 /VERSION
 # /bin/jemalloc.sh
 

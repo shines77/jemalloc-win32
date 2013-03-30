@@ -58,7 +58,7 @@ int slwait(int *sl)
 /* Release spin lock */
 int slrelease(int *sl)
 {
-    InterlockedExchange(sl, 0);
+    InterlockedExchange((volatile long *)sl, 0);
     return 0;
 }
 

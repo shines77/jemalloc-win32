@@ -74,7 +74,7 @@ malloc_tsd_boot(void)
 }
 
 #ifdef _WIN32
-static BOOL WINAPI
+static const BOOL WINAPI
 _tls_callback(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 

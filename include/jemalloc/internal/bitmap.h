@@ -64,7 +64,7 @@ int     ffsll(long long int i);
 /******************************************************************************/
 #ifdef JEMALLOC_H_INLINES
 
-#include "msvc_compat/strings.h"
+//#include "msvc_compat/strings.h"
 
 #ifndef JEMALLOC_ENABLE_INLINE
 bool    bitmap_full(bitmap_t *bitmap, const bitmap_info_t *binfo);

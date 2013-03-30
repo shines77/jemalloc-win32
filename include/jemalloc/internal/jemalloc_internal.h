@@ -23,7 +23,7 @@
 #endif
 #  undef  ERANGE
 #  define ERANGE ERROR_INVALID_DATA
-#  define getpid  _getpid
+#  define getpid _getpid
 #else
 #  include <sys/param.h>
 #  include <sys/mman.h>
@@ -41,6 +41,7 @@
 #ifndef SIZE_T_MAX
 #  define SIZE_T_MAX    SIZE_MAX
 #endif
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +58,9 @@
 #endif
 #include <inttypes.h>
 #include <string.h>
+#ifndef _MSC_VER
 #include <strings.h>
+#endif
 #include <ctype.h>
 #ifdef _MSC_VER
 #  include <io.h>
@@ -85,7 +88,33 @@ typedef intptr_t ssize_t;
 #endif
 
 #include "jemalloc/internal/private_namespace.h"
+#include "msvc_compat/strings.h"
 #include "msvc_compat/win_sbrk.h"
+
+#ifdef __cplusplus
+#ifndef PRIxPTR
+#define PRIxPTR     "x"
+#endif
+#ifdef _MSC_VER
+#ifndef PRId64
+#define PRId64      "lld"
+#endif
+#ifndef PRIu64
+#define PRIu64      "ULL"
+#endif
+#else
+#ifndef PRId64
+#define PRId64      "lld"
+#endif
+#ifndef PRIu64
+#define PRIu64      "llu"
+#endif
+#endif
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
 
 #ifdef JEMALLOC_CC_SILENCE
 #define UNUSED JEMALLOC_ATTR(unused)
@@ -206,6 +235,10 @@ static const bool config_ivsalloc =
 #endif
     ;
 
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
+
 #ifdef JEMALLOC_ATOMIC9
 #include <machine/atomic.h>
 #endif
@@ -244,8 +277,8 @@ static const bool config_ivsalloc =
 
 #define ALLOCM_LG_ALIGN_MASK    ((int)0x3f)
 
-#define ZU(z)       ((size_t)z)
-#define QU(q)       ((uint64_t)q)
+#define ZU(z)                   ((size_t)z)
+#define QU(q)                   ((uint64_t)q)
 
 #ifndef __DECONST
 #  define __DECONST(type, var)  ((type)(uintptr_t)(const void *)(var))
@@ -393,7 +426,7 @@ static const bool config_ivsalloc =
 #    endif
 #  endif
 #  define VARIABLE_ARRAY(type, name, count) \
-    type *name = alloca(sizeof(type) * count)
+    type *name = (type *)alloca(sizeof(type) * count)
 #else
 #  define VARIABLE_ARRAY(type, name, count) type name[count]
 #endif
@@ -473,6 +506,8 @@ static const bool config_ivsalloc =
 #define JEMALLOC_VALGRIND_FREE(ptr, rzsize) do {} while (0)
 #endif
 
+#include "msvc_compat/strings.h"
+
 #include "jemalloc/internal/util.h"
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/prng.h"
@@ -484,8 +519,8 @@ static const bool config_ivsalloc =
 #include "jemalloc/internal/tsd.h"
 #include "jemalloc/internal/mb.h"
 #include "jemalloc/internal/extent.h"
-#include "jemalloc/internal/arena.h"
 #include "jemalloc/internal/bitmap.h"
+#include "jemalloc/internal/arena.h"
 #include "jemalloc/internal/base.h"
 #include "jemalloc/internal/chunk.h"
 #include "jemalloc/internal/huge.h"
@@ -500,6 +535,12 @@ static const bool config_ivsalloc =
 #undef JEMALLOC_H_TYPES
 /******************************************************************************/
 #define JEMALLOC_H_STRUCTS
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+#include "msvc_compat/strings.h"
 
 #include "jemalloc/internal/util.h"
 #include "jemalloc/internal/atomic.h"
@@ -535,9 +576,17 @@ typedef struct {
  */
 #define THREAD_ALLOCATED_INITIALIZER    JEMALLOC_CONCAT({0, 0})
 
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
+
 #undef JEMALLOC_H_STRUCTS
 /******************************************************************************/
 #define JEMALLOC_H_EXTERNS
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
 
 extern bool     opt_abort;
 extern bool     opt_junk;
@@ -573,6 +622,8 @@ void    jemalloc_prefork(void);
 void    jemalloc_postfork_parent(void);
 void    jemalloc_postfork_child(void);
 
+#include "msvc_compat/strings.h"
+
 #include "jemalloc/internal/util.h"
 #include "jemalloc/internal/atomic.h"
 #include "jemalloc/internal/prng.h"
@@ -597,24 +648,19 @@ void    jemalloc_postfork_child(void);
 
 #include "msvc_compat/win_sbrk.h"
 
-#if 0
-#ifdef _WIN32
-#include <windows.h>
-
-static malloc_mutex_t   init_lock;
-
-JEMALLOC_ATTR(constructor)
-static void WINAPI
-je_init(void)
-{
-    malloc_mutex_init(&init_lock);
+#ifdef __cplusplus
 }
-#endif
-#endif
+#endif  /* __cplusplus */
 
 #undef JEMALLOC_H_EXTERNS
 /******************************************************************************/
 #define JEMALLOC_H_INLINES
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+#include "msvc_compat/strings.h"
 
 #include "jemalloc/internal/util.h"
 #include "jemalloc/internal/atomic.h"
@@ -817,7 +863,6 @@ malloc_tsd_protos(JEMALLOC_ATTR(unused), thread_allocated, thread_allocated_t)
 JEMALLOC_ALWAYS_INLINE void *
 imallocx(size_t size, bool try_tcache, arena_t *arena)
 {
-
     assert(size != 0);
 
     if (size <= arena_maxclass)
@@ -829,14 +874,12 @@ imallocx(size_t size, bool try_tcache, arena_t *arena)
 JEMALLOC_ALWAYS_INLINE void *
 imalloc(size_t size)
 {
-
     return (imallocx(size, true, NULL));
 }
 
 JEMALLOC_ALWAYS_INLINE void *
 icallocx(size_t size, bool try_tcache, arena_t *arena)
 {
-
     if (size <= arena_maxclass)
         return (arena_malloc(arena, size, true, try_tcache));
     else
@@ -846,7 +889,6 @@ icallocx(size_t size, bool try_tcache, arena_t *arena)
 JEMALLOC_ALWAYS_INLINE void *
 icalloc(size_t size)
 {
-
     return (icallocx(size, true, NULL));
 }
 
@@ -878,7 +920,6 @@ ipallocx(size_t usize, size_t alignment, bool zero, bool try_tcache,
 JEMALLOC_ALWAYS_INLINE void *
 ipalloc(size_t usize, size_t alignment, bool zero)
 {
-
     return (ipallocx(usize, alignment, zero, true, NULL));
 }
 
@@ -909,7 +950,6 @@ isalloc(const void *ptr, bool demote)
 JEMALLOC_ALWAYS_INLINE size_t
 ivsalloc(const void *ptr, bool demote)
 {
-
     /* Return 0 if ptr is not within a chunk managed by jemalloc. */
     if (rtree_get(chunks_rtree, (uintptr_t)CHUNK_ADDR2BASE(ptr)) == NULL)
         return (0);
@@ -956,14 +996,12 @@ idallocx(void *ptr, bool try_tcache)
 JEMALLOC_ALWAYS_INLINE void
 idalloc(void *ptr)
 {
-
     idallocx(ptr, true);
 }
 
 JEMALLOC_ALWAYS_INLINE void
 iqallocx(void *ptr, bool try_tcache)
 {
-
     if (config_fill && opt_quarantine)
         quarantine(ptr);
     else
@@ -973,7 +1011,6 @@ iqallocx(void *ptr, bool try_tcache)
 JEMALLOC_ALWAYS_INLINE void
 iqalloc(void *ptr)
 {
-
     iqallocx(ptr, true);
 }
 
@@ -1050,7 +1087,6 @@ JEMALLOC_ALWAYS_INLINE void *
 iralloc(void *ptr, size_t size, size_t extra, size_t alignment, bool zero,
     bool no_move)
 {
-
     return (irallocx(ptr, size, extra, alignment, zero, no_move, true, true,
         NULL));
 }
@@ -1061,6 +1097,10 @@ malloc_tsd_funcs(JEMALLOC_ALWAYS_INLINE, thread_allocated, thread_allocated_t,
 #endif
 
 #include "jemalloc/internal/prof.h"
+
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
 
 #undef JEMALLOC_H_INLINES
 /******************************************************************************/

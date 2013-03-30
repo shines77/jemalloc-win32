@@ -353,7 +353,7 @@ tcache_destroy(tcache_t *tcache)
 
     tcache_size = arena_salloc(tcache, false);
     if (tcache_size <= SMALL_MAXCLASS) {
-        arena_chunk_t *chunk = CHUNK_ADDR2BASE(tcache);
+        arena_chunk_t *chunk = (arena_chunk_t *)CHUNK_ADDR2BASE(tcache);
         arena_t *arena = chunk->arena;
         size_t pageind = ((uintptr_t)tcache - (uintptr_t)chunk) >>
             LG_PAGE;
@@ -361,7 +361,7 @@ tcache_destroy(tcache_t *tcache)
 
         arena_dalloc_bin(arena, chunk, tcache, pageind, mapelm);
     } else if (tcache_size <= tcache_maxclass) {
-        arena_chunk_t *chunk = CHUNK_ADDR2BASE(tcache);
+        arena_chunk_t *chunk = (arena_chunk_t *)CHUNK_ADDR2BASE(tcache);
         arena_t *arena = chunk->arena;
 
         arena_dalloc_large(arena, chunk, tcache);

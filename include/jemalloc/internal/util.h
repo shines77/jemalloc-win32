@@ -27,6 +27,20 @@
 #  define JEMALLOC_CC_SILENCE_INIT(v)
 #endif
 
+#include <limits.h>
+
+#ifndef INTMAX_MIN
+#define INTMAX_MIN      _I64_MIN
+#endif
+
+#ifndef INTMAX_MAX
+#define INTMAX_MAX      _I64_MAX
+#endif
+
+#ifndef UINTMAX_MAX
+#define UINTMAX_MAX     _UI64_MAX
+#endif
+
 /*
  * Define a custom assert() in order to reduce the chances of deadlock during
  * assertion failure.

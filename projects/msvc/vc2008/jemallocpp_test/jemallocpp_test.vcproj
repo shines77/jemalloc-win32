@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="jemalloc_test"
-	ProjectGUID="{683686D4-7951-47CD-B891-72102323E8A7}"
-	RootNamespace="jemalloc_test"
+	Name="jemallocpp_test"
+	ProjectGUID="{5918EAB0-919E-4FBE-B906-441D55BB7B0B}"
+	RootNamespace="jemallocpp_test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -49,7 +49,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				CompileAs="1"
+				CompileAs="2"
 				EnablePREfast="false"
 			/>
 			<Tool
@@ -126,7 +126,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				CompileAs="1"
+				CompileAs="2"
 				EnablePREfast="false"
 			/>
 			<Tool
@@ -181,14 +181,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\test\jemalloc_main.c"
+				RelativePath="..\..\..\..\test\jemalloc_main.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						CompileAs="1"
+						CompileAs="2"
 					/>
 				</FileConfiguration>
 			</File>
@@ -213,7 +213,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\res\jemalloc_test\vc2008\resource.h"
+				RelativePath="..\..\..\..\res\jemallocpp_test\vc2008\resource.h"
 				>
 			</File>
 		</Filter>
