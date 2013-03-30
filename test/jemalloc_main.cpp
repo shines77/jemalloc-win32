@@ -16,6 +16,12 @@
 //#include "jemalloc/jemalloc.h"
 //#include "jemalloc/internal/jemalloc_internal.h"
 
+class AA
+{
+public:
+    int a, b;
+};
+
 void Hello_World()
 {
     printf("\n");
@@ -74,6 +80,13 @@ void MemoryPool_Test()
 
 int main(int argc, char *argv[])
 {
+#if 1
+    AA a;
+    a.a = 0;
+    a.b = 9;
+    printf("A.a = %d, A.b = %d\n\n", a.a, a.b);
+#endif
+
     do {
         Hello_World();
 

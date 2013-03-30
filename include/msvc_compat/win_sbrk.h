@@ -28,7 +28,7 @@ typedef struct _region_list_entry {
 /******************************************************************************/
 #ifdef JEMALLOC_H_EXTERNS
 
-#include <windows.h>
+//#include <windows.h>
 
 /* Initialize critical section */
 void csinitialize(CRITICAL_SECTION *cs);
@@ -80,18 +80,11 @@ int cpuinfo(int whole, unsigned long *kernel, unsigned long *user);
 /******************************************************************************/
 #ifdef JEMALLOC_H_INLINES
 
-static int g_cs_initialized;
-static CRITICAL_SECTION g_cs;
-static int g_sl;
-
-static long g_pagesize;
-static long g_regionsize;
-
-#include <windows.h>
+//#include <windows.h>
 
 /* Allocate and link a region entry in the region list */
 static int region_list_append (region_list_entry **last, void *base_reserved, long reserve_size) {
-    region_list_entry *next = HeapAlloc (GetProcessHeap (), 0, sizeof (region_list_entry));
+    region_list_entry *next = (region_list_entry *)HeapAlloc(GetProcessHeap(), 0, sizeof(region_list_entry));
     if (! next)
         return FALSE;
     next->top_allocated = (char *) base_reserved;

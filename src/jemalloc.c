@@ -66,12 +66,22 @@ static malloc_mutex_t   init_lock;
 static bool             g_init_lock_inited = false;
 
 JEMALLOC_ATTR(constructor)
-static void WINAPI
+static const void WINAPI
 _init_init_lock(void)
 {
     if (g_init_lock_inited == false) {
         malloc_mutex_init(&init_lock);
         g_init_lock_inited = true;
+    }
+}
+
+JEMALLOC_ATTR(destructor)
+static const void WINAPI
+_uninit_init_lock(void)
+{
+    if (g_init_lock_inited == true) {
+        malloc_mutex_uninit(&init_lock);
+        g_init_lock_inited = false;
     }
 }
 
@@ -595,7 +605,11 @@ malloc_conf_init(void)
                 for (i = 0; i < dss_prec_limit; i++) {
                     if (strncmp(dss_prec_names[i], v, vlen)
                         == 0) {
+#ifdef __cplusplus
+                        if (chunk_dss_prec_set(static_cast<dss_prec_t>(i))) {
+#else
                         if (chunk_dss_prec_set(i)) {
+#endif
                             malloc_conf_error(
                                 "Error setting dss",
                                 k, klen, v, vlen);
@@ -859,6 +873,12 @@ void
 je_init(void)
 {
     _init_init_lock();
+}
+
+void
+je_uninit(void)
+{
+    _uninit_init_lock();
 }
 
 /*
@@ -1188,7 +1208,8 @@ je_realloc(void *ptr, size_t size)
                 if (ret == NULL)
                     old_ctx = NULL;
             }
-        } else {
+        }
+        else {
             if (config_stats || (config_valgrind && opt_valgrind))
                 usize = s2u(size);
             ret = iralloc(ptr, size, 0, 0, false, false);
@@ -1203,7 +1224,8 @@ label_oom:
             }
             set_errno(ENOMEM);
         }
-    } else {
+    }
+    else {
         /* realloc(NULL, size) is equivalent to malloc(size). */
         if (config_prof && opt_prof)
             old_ctx = NULL;
@@ -1211,12 +1233,14 @@ label_oom:
             if (config_prof && opt_prof)
                 cnt = NULL;
             ret = NULL;
-        } else {
+        }
+        else {
             if (config_prof && opt_prof) {
                 usize = s2u(size);
                 PROF_ALLOC_PREP(1, usize, cnt);
-                if (cnt == NULL)
+                if (cnt == NULL) {
                     ret = NULL;
+                }
                 else {
                     if (prof_promote && (uintptr_t)cnt !=
                         (uintptr_t)1U && usize <=
@@ -1226,10 +1250,13 @@ label_oom:
                             arena_prof_promoted(ret,
                                 usize);
                         }
-                    } else
+                    }
+                    else {
                         ret = imalloc(size);
+                    }
                 }
-            } else {
+            }
+            else {
                 if (config_stats || (config_valgrind &&
                     opt_valgrind))
                     usize = s2u(size);
@@ -1321,9 +1348,9 @@ je_valloc(size_t size)
  * is_malloc(je_malloc) is some macro magic to detect if jemalloc_defs.h has
  * #define je_malloc malloc
  */
-#define malloc_is_malloc 1
-#define is_malloc_(a) malloc_is_ ## a
-#define is_malloc(a) is_malloc_(a)
+#define malloc_is_malloc    1
+#define is_malloc_(a)       malloc_is_ ## a
+#define is_malloc(a)        is_malloc_(a)
 
 #if ((is_malloc(je_malloc) == 1) && defined(__GLIBC__) && !defined(__UCLIBC__))
 /*
@@ -1593,7 +1620,8 @@ je_rallocm(void **ptr, size_t *rsize, size_t size, size_t extra, int flags)
         prof_realloc(q, usize, cnt, old_size, old_ctx);
         if (rsize != NULL)
             *rsize = usize;
-    } else {
+    }
+    else {
         if (config_stats) {
             old_size = isalloc(p, false);
             if (config_valgrind && opt_valgrind)

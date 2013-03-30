@@ -22,13 +22,15 @@ static long g_regionsize = 0;
 /* Initialize critical section */
 void csinitialize(CRITICAL_SECTION *cs)
 {
-    InitializeCriticalSection(cs);
+    if (cs != NULL)
+        InitializeCriticalSection(cs);
 }
 
 /* Delete critical section */
 void csdelete(CRITICAL_SECTION *cs)
 {
-    DeleteCriticalSection(cs);
+    if (cs != NULL)
+        DeleteCriticalSection(cs);
 }
 
 /* Enter critical section */
@@ -56,7 +58,7 @@ int slwait(int *sl)
 /* Release spin lock */
 int slrelease(int *sl)
 {
-    InterlockedExchange(sl, 0);
+    InterlockedExchange((volatile long *)sl, 0);
     return 0;
 }
 
@@ -116,7 +118,7 @@ long munmap(void *ptr, long size)
 {
     int rc = MUNMAP_FAILURE;
     /* Wait for spin lock */
-    slwait (&g_sl);
+    slwait(&g_sl);
     /* First time initialization */
     if (! g_pagesize)
         g_pagesize = getpagesize ();
@@ -139,8 +141,8 @@ munmap_exit:
 /* sbrk for windows */
 void *sbrk_win(long size)
 {
-    static long g_pagesize, g_my_pagesize;
-    static long g_regionsize, g_my_regionsize;
+    static long g_my_pagesize;
+    static long g_my_regionsize;
     static region_list_entry *g_last;
     void *result = SBRK_FAILURE;
     /* Wait for spin lock */
@@ -339,8 +341,8 @@ sbrk_exit:
 /* sbrk for windows secondary version */
 void *sbrk_simple(long size)
 {
-    static long g_pagesize, g_my_pagesize;
-    static long g_regionsize, g_my_regionsize;
+    static long g_my_pagesize;
+    static long g_my_regionsize;
     static region_list_entry *g_last;
     void *result = SBRK_FAILURE;
     /* Wait for spin lock */

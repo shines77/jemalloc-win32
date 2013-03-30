@@ -1330,7 +1330,11 @@ arena_i_dss_ctl(const size_t *mib, size_t miblen, void *oldp, size_t *oldlenp,
     match = false;
     for (i = 0; i < dss_prec_limit; i++) {
         if (strcmp(dss_prec_names[i], dss) == 0) {
+#ifdef __cplusplus
+            dss_prec = static_cast<dss_prec_t>(i);
+#else
             dss_prec = i;
+#endif
             match = true;
             break;
         }
