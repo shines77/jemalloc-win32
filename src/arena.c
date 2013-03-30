@@ -635,7 +635,7 @@ arena_run_alloc_helper(arena_t *arena, size_t size, bool large, size_t binind,
     key.bits = size | CHUNK_MAP_KEY;
     mapelm = arena_avail_tree_nsearch(&arena->runs_avail, &key);
     if (mapelm != NULL) {
-        arena_chunk_t *run_chunk = CHUNK_ADDR2BASE(mapelm);
+        arena_chunk_t *run_chunk = (arena_chunk_t *)CHUNK_ADDR2BASE(mapelm);
         size_t pageind = (((uintptr_t)mapelm -
             (uintptr_t)run_chunk->map) / sizeof(arena_chunk_map_t))
             + map_bias;
@@ -1190,7 +1190,7 @@ arena_bin_runs_first(arena_bin_t *bin)
 static void
 arena_bin_runs_insert(arena_bin_t *bin, arena_run_t *run)
 {
-    arena_chunk_t *chunk = CHUNK_ADDR2BASE(run);
+    arena_chunk_t *chunk = (arena_chunk_t *)CHUNK_ADDR2BASE(run);
     size_t pageind = ((uintptr_t)run - (uintptr_t)chunk) >> LG_PAGE;
     arena_chunk_map_t *mapelm = arena_mapp_get(chunk, pageind);
 
@@ -1543,7 +1543,7 @@ arena_palloc(arena_t *arena, size_t size, size_t alignment, bool zero)
             leadsize);
     }
     if (trailsize != 0) {
-        arena_run_trim_tail(arena, chunk, ret, size + trailsize, size,
+        arena_run_trim_tail(arena, chunk, (arena_run_t *)ret, size + trailsize, size,
             false);
     }
 

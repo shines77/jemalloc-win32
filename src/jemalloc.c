@@ -66,7 +66,7 @@ static malloc_mutex_t   init_lock;
 static bool             g_init_lock_inited = false;
 
 JEMALLOC_ATTR(constructor)
-static void WINAPI
+static const void WINAPI
 _init_init_lock(void)
 {
     if (g_init_lock_inited == false) {
@@ -76,7 +76,7 @@ _init_init_lock(void)
 }
 
 JEMALLOC_ATTR(destructor)
-static void WINAPI
+static const void WINAPI
 _uninit_init_lock(void)
 {
     if (g_init_lock_inited == true) {
@@ -605,7 +605,11 @@ malloc_conf_init(void)
                 for (i = 0; i < dss_prec_limit; i++) {
                     if (strncmp(dss_prec_names[i], v, vlen)
                         == 0) {
+#ifdef __cplusplus
+                        if (chunk_dss_prec_set(static_cast<dss_prec_t>(i))) {
+#else
                         if (chunk_dss_prec_set(i)) {
+#endif
                             malloc_conf_error(
                                 "Error setting dss",
                                 k, klen, v, vlen);

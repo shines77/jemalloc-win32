@@ -1,11 +1,12 @@
 #ifndef JEMALLOC_H_
 #define JEMALLOC_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include <limits.h>
 #include <strings.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define JEMALLOC_VERSION            "3.3.1-0-g9ef9d9e8c271cdf14f664b871a8f98c827714784"
 #define JEMALLOC_VERSION_MAJOR      3
@@ -17,21 +18,24 @@ extern "C" {
 #include "jemalloc_defs.h"
 
 #ifdef JEMALLOC_EXPERIMENTAL
-#define ALLOCM_LG_ALIGN(la)     (la)
+#define ALLOCM_LG_ALIGN(la)         (la)
 #if LG_SIZEOF_PTR == 2
-#define ALLOCM_ALIGN(a)         (ffs(a)-1)
+#define ALLOCM_ALIGN(a)             (ffs(a)-1)
 #else
-#define ALLOCM_ALIGN(a)         ((a < (size_t)INT_MAX) ? ffs(a) - 1 : ffs(a>>32) + 31)
+#define ALLOCM_ALIGN(a)             ((a < (size_t)INT_MAX) ? ffs(a) - 1 : ffs(a>>32) + 31)
 #endif
-#define ALLOCM_ZERO             ((int)0x40)
-#define ALLOCM_NO_MOVE          ((int)0x80)
+#define ALLOCM_ZERO                 ((int)0x40)
+#define ALLOCM_NO_MOVE              ((int)0x80)
 /* Bias arena index bits so that 0 encodes "ALLOCM_ARENA() unspecified". */
-#define ALLOCM_ARENA(a)         ((int)(((a)+1) << 8))
+#define ALLOCM_ARENA(a)             ((int)(((a)+1) << 8))
 
-#define ALLOCM_SUCCESS          0
-#define ALLOCM_ERR_OOM          1
-#define ALLOCM_ERR_NOT_MOVED    2
+#define ALLOCM_SUCCESS              0
+#define ALLOCM_ERR_OOM              1
+#define ALLOCM_ERR_NOT_MOVED        2
 #endif
+
+//static inline int                   je_ffs(int x);
+//static inline int                   je_ffsl(long x);
 
 /*
  * The je_ prefix on the following public symbol declarations is an artifact of
@@ -159,4 +163,5 @@ JEMALLOC_EXPORT int     je_nallocm(size_t *rsize, size_t size, int flags);
 #ifdef __cplusplus
 };
 #endif
+
 #endif /* JEMALLOC_H_ */

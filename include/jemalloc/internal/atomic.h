@@ -153,14 +153,14 @@ atomic_sub_uint32(uint32_t *p, uint32_t x)
 JEMALLOC_INLINE uint32_t
 atomic_add_uint32(uint32_t *p, uint32_t x)
 {
-    return (InterlockedExchangeAdd(p, x));
+    return (InterlockedExchangeAdd((volatile long *)p, x));
 }
 
 JEMALLOC_INLINE uint32_t
 atomic_sub_uint32(uint32_t *p, uint32_t x)
 {
 
-    return (InterlockedExchangeAdd(p, -((int32_t)x)));
+    return (InterlockedExchangeAdd((volatile long *)p, -((int32_t)x)));
 }
 #elif (defined(JEMALLOC_OSATOMIC))
 JEMALLOC_INLINE uint32_t
