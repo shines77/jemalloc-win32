@@ -192,6 +192,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\..\..\test\memory_pool_test.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -199,7 +203,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\..\..\test\itimer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\test\jemalloc_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\memory_pool_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\tickcount.h"
 				>
 			</File>
 		</Filter>

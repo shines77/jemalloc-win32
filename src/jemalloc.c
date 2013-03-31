@@ -284,9 +284,10 @@ malloc_ncpus(void)
     if (result == -1) {
         /* Error. */
         ret = 1;
-    }  else {
-    ret = (unsigned)result;
-  }
+    }
+    else {
+        ret = (unsigned)result;
+    }
 
     return (ret);
 }

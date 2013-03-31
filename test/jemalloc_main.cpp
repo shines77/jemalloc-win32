@@ -12,9 +12,7 @@
 #include <errno.h>
 
 #include "jemalloc_test.h"
-
-//#include "jemalloc/jemalloc.h"
-//#include "jemalloc/internal/jemalloc_internal.h"
+#include "memory_pool_test.h"
 
 class AA
 {
@@ -27,6 +25,17 @@ void Hello_World()
     printf("\n");
     printf("Hello world !\n");
     printf("\n");
+}
+
+void Memory_Pool_Test()
+{
+    mem_pool_test_linstener *tester = new mem_pool_test();
+    if (tester != NULL) {
+        tester->Begin();
+        tester->Malloc(0);
+        tester->End();
+        delete tester;
+    }
 }
 
 void MemoryPool_Test()
@@ -77,6 +86,13 @@ void MemoryPool_Test()
     //system("pause");
     //printf("\n");
 }
+
+/*
+ *
+ * 顺序大小, 顺序释放, 随机大小(分不同的块), 乱序释放
+ * 关于分块: 1-4096, 4096-16384, 16K-64K, 16K-84K, 128K-1M, 1M-64M
+ *
+ */
 
 int main(int argc, char *argv[])
 {
