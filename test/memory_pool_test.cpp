@@ -97,7 +97,7 @@ void mem_pool_test::RunTest( void )
     size_t alloc_size;
     void *p;
     if (size_type == ST_FIXED_SIZE && alloc_way == AW_REPEATED_ALLOC) {
-        alloc_size = min_alloc_size;
+        alloc_size = MAX(1, min_alloc_size);
         for (i = 0; i < loop_count1; i++) {
             p = Malloc(min_alloc_size);
             if (p)
@@ -107,7 +107,8 @@ void mem_pool_test::RunTest( void )
     else if (size_type == ST_CONTINUOUS_SIZE && alloc_way == AW_REPEATED_ALLOC) {
 #if 1
         for (i = 0; i < loop_count1; i++) {
-            alloc_size = (i % max_alloc_size) + 1;
+            alloc_size = (i % max_alloc_size) + min_alloc_size;
+            alloc_size = MAX(1, alloc_size);
             p = Malloc(alloc_size);
             if (p)
                 Free(p);
