@@ -181,6 +181,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\..\test\je_malloc_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\test\jemalloc_main.cpp"
 				>
 				<FileConfiguration
@@ -192,6 +196,14 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\..\..\test\memory_pool_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\orgi_malloc_test.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -199,7 +211,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\..\..\test\itimer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\je_malloc_test.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\test\jemalloc_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\memory_pool_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\orgi_malloc_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\tickcount.h"
 				>
 			</File>
 		</Filter>
