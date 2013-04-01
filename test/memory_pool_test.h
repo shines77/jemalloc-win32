@@ -78,9 +78,13 @@ typedef enum _size_types
 {
     SIZE_TYPES_NONE = 0,
     ST_SEPARATOR,               // separator
+
     ST_FIXED_SIZE,              // fixed size
     ST_CONTINUOUS_SIZE,         // continuous size
     ST_RANDOM_SIZE,             // random size
+
+    ST_FIXED_REPEATED,          // fixed size and repeated alloca
+    ST_CONTI_REPEATED,          // continuous size and repeated alloca
 } size_types;
 
 typedef enum _alloc_ways
