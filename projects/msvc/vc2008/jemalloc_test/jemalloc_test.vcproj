@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\bin\windows\x86\vc2008\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\src;..\..\..\..\lib;..\..\..\..\deps"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LE;GPL_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LE;APR_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -97,7 +97,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\bin\windows\x86\vc2008\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -120,7 +120,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\src;..\..\..\..\lib;..\..\..\..\deps"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;LE;GPL_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;LE;APR_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"

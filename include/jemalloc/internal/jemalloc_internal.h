@@ -3,11 +3,13 @@
 #include <math.h>
 #ifdef _WIN32
 #  include <windows.h>
-#ifndef   ENOENT
-#  define ENOENT ERROR_PATH_NOT_FOUND
-#endif
+#  include <errno.h>
 #ifndef   EINVAL
 #  define EINVAL ERROR_BAD_ARGUMENTS
+#endif
+/*
+#ifndef   ENOENT
+#  define ENOENT ERROR_PATH_NOT_FOUND
 #endif
 #ifndef   EAGAIN
 #  define EAGAIN ERROR_OUTOFMEMORY
@@ -23,6 +25,7 @@
 #endif
 #  undef  ERANGE
 #  define ERANGE ERROR_INVALID_DATA
+//*/
 #  define getpid _getpid
 #else
 #  include <sys/param.h>

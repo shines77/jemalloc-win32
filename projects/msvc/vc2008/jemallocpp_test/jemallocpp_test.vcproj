@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\bin\windows\x86\vc2008\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\src;..\..\..\..\lib;..\..\..\..\deps"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LE;GPL_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;LE;APR_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -63,6 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="apr-1-mt-debug.lib ws2_32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\windows\x86\vc2008;..\..\..\..\deps"
 				UACExecutionLevel="1"
@@ -97,7 +98,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\bin\windows\x86\vc2008\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -120,7 +121,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\src;..\..\..\..\lib;..\..\..\..\deps"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;LE;GPL_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;LE;APR_DECLARE_STATIC;WINNT;_WINDOWS;DLLEXPORT"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -140,6 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="apr-1-mt.lib ws2_32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\windows\x86\vc2008;..\..\..\..\deps"
 				UACExecutionLevel="1"
@@ -181,6 +183,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\..\test\apr_malloc_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\test\je_malloc_test.cpp"
 				>
 			</File>
@@ -210,6 +216,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\..\..\test\apr_malloc_test.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\..\..\test\itimer.h"
 				>

@@ -26,7 +26,7 @@ orig_malloc_test::~orig_malloc_test()
 char * orig_malloc_test::GetFuncName( void )
 {
 #if defined(_LANG_ID) && (_LANG_ID == 1)
-    return "系统的 malloc() 函数";
+    return "系统 malloc() 函数";
 #else
     return "original malloc()";
 #endif

@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\lib\windows\x86\vc2008"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -86,7 +86,7 @@
 			OutputDirectory="$(SolutionDir)..\..\..\lib\windows\x86\vc2008"
 			IntermediateDirectory="$(SolutionDir)..\..\..\tmp\windows\x86\vc2008\$(ConfigurationName)\$(ProjectName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
