@@ -80,6 +80,8 @@ Icon?
 Thumbs.db
 
 # Other files
+*.exp
+*.zip
 /.metadata
 /169.254.0.1
 /ipch
@@ -95,3 +97,4 @@ Thumbs.db
 # Some unuseful files
 size_classes_cmd.txt
 jemalloc_cmd.txt
+mem_pool_log.txt
