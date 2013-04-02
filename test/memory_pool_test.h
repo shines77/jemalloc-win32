@@ -22,7 +22,61 @@
 #define FORCE_INLINE    __inline
 //#define FORCE_INLINE
 
+#define MAX_TEXT_LEN            512
+#define MAX_LOG_FILENAME_LEN    260
+
+#define LOCAL_LOG_FILENAME      "c:\\mem_pool_log.txt"
+#define DEFAULT_LOG_FILENAME    "mem_pool_log.txt"
+
 using namespace gmtl;
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+typedef enum _size_types
+{
+    SIZE_TYPES_NONE = 0,
+    ST_SEPARATOR,               // separator
+
+    ST_FIXED_SIZE,              // fixed size
+    ST_CONTINUOUS_SIZE,         // continuous size
+    ST_RANDOM_SIZE,             // random size
+
+    ST_FIXED_REPEATED,          // fixed size and repeated alloca
+    ST_CONTI_REPEATED,          // continuous size and repeated alloca
+    ST_RANDOM_REPEATED,         // random size and repeated alloca
+} size_types;
+
+typedef enum _alloc_ways
+{
+    ALLOC_WAYS_NONE = 0,
+    AW_REPEATED_ALLOC,          // repeated alloca
+    AW_CONTIGUOUS_ALLOC,        // contiguous alloca
+    AW_RANDOM_FREE,             // contiguous alloca and random order to free
+} alloc_ways;
+
+typedef struct mpool_test_data_s
+{
+    size_types  size_type;
+    alloc_ways  alloc_way;
+//  int         chunk_type;
+    size_t      min_alloc_size;
+    size_t      max_alloc_size;
+    int         loop_count1;
+    int         loop_count2;
+    int         loop_count3;
+} mpool_test_data_t;
+
+FILE *mem_pool_log_init(const char *filename);
+void  mem_pool_log_close(void);
+
+int   mem_pool_printf(char *fmt, ...);
+
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
+
 
 /* mem_test_timer */
 class mem_test_timer
@@ -73,48 +127,6 @@ private:
     tickcount _timer;
 #endif
 };
-
-typedef enum _size_types
-{
-    SIZE_TYPES_NONE = 0,
-    ST_SEPARATOR,               // separator
-
-    ST_FIXED_SIZE,              // fixed size
-    ST_CONTINUOUS_SIZE,         // continuous size
-    ST_RANDOM_SIZE,             // random size
-
-    ST_FIXED_REPEATED,          // fixed size and repeated alloca
-    ST_CONTI_REPEATED,          // continuous size and repeated alloca
-    ST_RANDOM_REPEATED,         // random size and repeated alloca
-} size_types;
-
-typedef enum _alloc_ways
-{
-    ALLOC_WAYS_NONE = 0,
-    AW_REPEATED_ALLOC,          // repeated alloca
-    AW_CONTIGUOUS_ALLOC,        // contiguous alloca
-    AW_RANDOM_FREE,             // contiguous alloca and random order to free
-} alloc_ways;
-
-#ifdef __cplusplus
-extern "C" {
-#endif  /* __cplusplus */
-
-typedef struct mpool_test_data_s
-{
-    size_types  size_type;
-    alloc_ways  alloc_way;
-//  int         chunk_type;
-    size_t      min_alloc_size;
-    size_t      max_alloc_size;
-    int         loop_count1;
-    int         loop_count2;
-    int         loop_count3;
-} mpool_test_data_t;
-
-#ifdef __cplusplus
-}
-#endif  /* __cplusplus */
 
 class mem_pool_test_param
 {
