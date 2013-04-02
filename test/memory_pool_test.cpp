@@ -1,6 +1,16 @@
 
 #include "memory_pool_test.h"
 
+FORCE_INLINE
+size_t get_rand()
+{
+#if defined(RAND_MAX) && (RAND_MAX == 0x7FFF)
+    return (rand() | rand() << 15);
+#else
+    return rand();
+#endif
+}
+
 mem_pool_test_param::mem_pool_test_param()
 {
     size_type       = SIZE_TYPES_NONE;
@@ -27,9 +37,9 @@ mem_pool_test_param::mem_pool_test_param( size_types size_type_, alloc_ways allo
     , loop_count3(loop_count3_)
 {
 #ifdef _DEBUG
-    loop_count1 = MAX(1, loop_count1_ / 100);
-    loop_count2 = MAX(0, loop_count2_ / 100);
-    loop_count3 = MAX(0, loop_count3_ / 100);
+    loop_count1     = MAX(1, loop_count1_ / 100);
+    loop_count2     = MAX(0, loop_count2_ / 100);
+    loop_count3     = MAX(0, loop_count3_ / 100);
 #endif
 }
 
@@ -50,9 +60,9 @@ void mem_pool_test_param::setting( size_types size_type_, alloc_ways alloc_way_,
     min_alloc_size  = min_alloc_size_;
     max_alloc_size  = max_alloc_size_;
 #ifdef _DEBUG
-    loop_count1 = MAX(1, loop_count1_ / 100);
-    loop_count2 = MAX(0, loop_count2_ / 100);
-    loop_count3 = MAX(0, loop_count3_ / 100);
+    loop_count1     = MAX(1, loop_count1_ / 100);
+    loop_count2     = MAX(0, loop_count2_ / 100);
+    loop_count3     = MAX(0, loop_count3_ / 100);
 #else
     loop_count1     = loop_count1_;
     loop_count2     = loop_count2_;
@@ -106,9 +116,10 @@ void mem_pool_test::RunTest( void )
     }
     else if (size_type == ST_CONTINUOUS_SIZE && alloc_way == AW_REPEATED_ALLOC) {
 #if 1
+        size_t max_alloc = max_alloc_size - min_alloc_size + 1;
         for (i = 0; i < loop_count1; i++) {
-            alloc_size = (i % max_alloc_size) + min_alloc_size;
-            alloc_size = MAX(1, alloc_size);
+            alloc_size = (i % max_alloc) + min_alloc_size;
+            //alloc_size = MAX(1, alloc_size);
             p = Malloc(alloc_size);
             if (p)
                 Free(p);
@@ -121,5 +132,17 @@ void mem_pool_test::RunTest( void )
                 Free(p);
         }
 #endif
+    }
+    else if (size_type == ST_RANDOM_SIZE && alloc_way == AW_REPEATED_ALLOC) {
+        size_t rnd;
+        size_t max_alloc = max_alloc_size - min_alloc_size + 1;
+        for (i = 0; i < loop_count1; i++) {
+            rnd = get_rand();
+            alloc_size = (rnd % max_alloc) + min_alloc_size;
+            //alloc_size = MAX(1, alloc_size);
+            p = Malloc(alloc_size);
+            if (p)
+                Free(p);
+        }
     }
 }

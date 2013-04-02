@@ -85,6 +85,7 @@ typedef enum _size_types
 
     ST_FIXED_REPEATED,          // fixed size and repeated alloca
     ST_CONTI_REPEATED,          // continuous size and repeated alloca
+    ST_RANDOM_REPEATED,         // random size and repeated alloca
 } size_types;
 
 typedef enum _alloc_ways
@@ -104,8 +105,8 @@ typedef struct mpool_test_data_s
     size_types  size_type;
     alloc_ways  alloc_way;
 //  int         chunk_type;
-    int         min_alloc_size;
-    int         max_alloc_size;
+    size_t      min_alloc_size;
+    size_t      max_alloc_size;
     int         loop_count1;
     int         loop_count2;
     int         loop_count3;
@@ -132,8 +133,8 @@ public:
     int     size_type;
     int     alloc_way;
     int     chunk_type;
-    int     min_alloc_size;
-    int     max_alloc_size;
+    size_t  min_alloc_size;
+    size_t  max_alloc_size;
     int     loop_count1;
     int     loop_count2;
     int     loop_count3;
