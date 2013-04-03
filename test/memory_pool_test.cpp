@@ -31,24 +31,25 @@ static char log_filename[MAX_LOG_FILENAME_LEN];
  *       如果调用成功返回指向被替换后新字符串的指针, 如果失败返回NULL
  *
  ************************************************************************/
-char *str_replace(char *strbuf, char *sstr, char *dstr)
+char *str_replace(const char *strbuf, const char *sstr, const char *dstr)
 {
     char *new_str = NULL, *next;
     unsigned int len, str_len, src_len, dst_len;
     register unsigned int i = 0;
-    char *temp;
+    char *dup_buf;
 
     if ((strbuf == NULL) || (sstr == NULL) || (dstr == NULL))
         return NULL;
 
-    temp = strbuf;
+    dup_buf = (char *)strbuf;
     src_len = strlen(sstr);
-    while (strstr(temp, sstr) != NULL){
-        temp = strstr(temp, sstr) + src_len;
+    while (strstr(dup_buf, sstr) != NULL){
+        dup_buf = strstr(dup_buf, sstr) + src_len;
         i++;
     }
 
     if (i != 0) {
+        dup_buf = (char *)strbuf;
         str_len = strlen(strbuf);
         dst_len = strlen(dstr);
         len = (str_len - (src_len - dst_len) * i + 1) * sizeof(char);
@@ -56,12 +57,12 @@ char *str_replace(char *strbuf, char *sstr, char *dstr)
         if (new_str != NULL) {
             //new_str[0] = '\0';
             memset(new_str, 0, len);
-            while ((next = strstr(strbuf, sstr)) != NULL) {
-                new_str = strncat(new_str, strbuf, (next - strbuf));
+            while ((next = strstr(dup_buf, sstr)) != NULL) {
+                new_str = strncat(new_str, dup_buf, (next - dup_buf));
                 new_str = strcat(new_str, dstr);
-                strbuf = next + src_len;
+                dup_buf = next + src_len;
             }
-            new_str = strcat(new_str, strbuf);
+            new_str = strcat(new_str, dup_buf);
             return new_str;
         }
     }

@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="apr-1-mt-debug.lib ws2_32.lib"
+				AdditionalDependencies="apr-1-mt-debug.lib libtcmalloc_minimal-debug.lib ws2_32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\windows\x86\vc2008;..\..\..\..\deps"
 				UACExecutionLevel="1"
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="apr-1-mt.lib ws2_32.lib"
+				AdditionalDependencies="apr-1-mt.lib libtcmalloc_minimal.lib ws2_32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\windows\x86\vc2008;..\..\..\..\deps"
 				UACExecutionLevel="1"
@@ -210,6 +210,10 @@
 				RelativePath="..\..\..\..\test\orgi_malloc_test.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\..\test\tc_malloc_test.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -238,6 +242,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\test\orgi_malloc_test.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\test\tc_malloc_test.h"
 				>
 			</File>
 			<File
