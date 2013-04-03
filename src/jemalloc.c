@@ -1773,7 +1773,6 @@ JEMALLOC_ATTR(constructor)
 static void
 jemalloc_constructor(void)
 {
-
     malloc_init();
 }
 

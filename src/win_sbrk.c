@@ -323,7 +323,7 @@ void *sbrk_win(long size)
             /* Adjust regions allocate top */
             g_last->top_allocated = (char *)g_last->top_allocated - deallocate_size;
             /* Check for underflow */
-            if ((char *) g_last->top_reserved - g_last->reserve_size > (char *)g_last->top_allocated ||
+            if ((char *)g_last->top_reserved - g_last->reserve_size > (char *)g_last->top_allocated ||
                 g_last->top_allocated > g_last->top_committed) {
                 /* Adjust regions allocate top */
                 g_last->top_allocated = (char *)g_last->top_reserved - g_last->reserve_size;
@@ -439,11 +439,11 @@ void *sbrk_simple(long size)
         if (size < 0) {
             long deallocate_size = - size;
             /* As long as we have a region to release */
-            while ((char *) g_last->top_allocated - deallocate_size < (char *) g_last->top_reserved - g_last->reserve_size) {
+            while ((char *)g_last->top_allocated - deallocate_size < (char *)g_last->top_reserved - g_last->reserve_size) {
                 /* Get the size to release */
                 long release_size = g_last->reserve_size;
                 /* Get the base address */
-                void *base_reserved = (char *) g_last->top_reserved - release_size;
+                void *base_reserved = (char *)g_last->top_reserved - release_size;
                 /* Release this */
                 int rc = VirtualFree(base_reserved, 0,
                                      MEM_RELEASE);
@@ -452,19 +452,19 @@ void *sbrk_simple(long size)
                     goto sbrk_exit;
                 }
                 /* Adjust deallocation size */
-                deallocate_size -= (char *) g_last->top_allocated - (char *) base_reserved;
+                deallocate_size -= (char *)g_last->top_allocated - (char *) base_reserved;
                 /* Remove the old region from the list */
                 if (! region_list_remove(&g_last)) {
                     goto sbrk_exit;
                 }
             }
             /* Adjust regions allocate top */
-            g_last->top_allocated = (char *) g_last->top_allocated - deallocate_size;
+            g_last->top_allocated = (char *)g_last->top_allocated - deallocate_size;
             /* Check for underflow */
-            if ((char *) g_last->top_reserved - g_last->reserve_size > (char *) g_last->top_allocated ||
+            if ((char *)g_last->top_reserved - g_last->reserve_size > (char *)g_last->top_allocated ||
                 g_last->top_allocated > g_last->top_reserved) {
                 /* Adjust regions allocate top */
-                g_last->top_allocated = (char *) g_last->top_reserved - g_last->reserve_size;
+                g_last->top_allocated = (char *)g_last->top_reserved - g_last->reserve_size;
                 goto sbrk_exit;
             }
             result = g_last->top_allocated;

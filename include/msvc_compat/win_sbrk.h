@@ -66,7 +66,7 @@ void *sbrk_win(long size);
 /* sbrk for windows secondary version */
 void *sbrk_simple(long size);
 
-#if 1
+#if 0
 #define sbrk    sbrk_simple
 #else
 #define sbrk    sbrk_win

@@ -37,6 +37,9 @@ protected:
     bool apr_new_pool();
     void apr_delete_pool();
 
+    bool apr_new_child_pool();
+    void apr_delete_child_pool();
+
 private:
     apr_pool_t *apr_pmain;
     apr_pool_t *apr_pchild;

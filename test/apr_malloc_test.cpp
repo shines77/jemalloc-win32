@@ -36,35 +36,59 @@ apr_malloc_test::~apr_malloc_test()
 
 bool apr_malloc_test::apr_new_pool()
 {
-    bool ret = false;
-
-    // release first
+    // release pool first
     apr_delete_pool();
 
     apr_status_t rv;
     rv = apr_pool_create(&apr_pmain, NULL);
     assert(rv == APR_SUCCESS);
+    /*
     if (rv == APR_SUCCESS) {
         rv = apr_pool_create(&apr_pchild, apr_pmain);
         assert(rv == APR_SUCCESS);
         if (rv == APR_SUCCESS) {
-            ret = true;
+            // create child pool success
         }
     }
-    return ret;
+    //*/
+    return (rv == APR_SUCCESS);
 }
 
 void apr_malloc_test::apr_delete_pool()
 {
+    /*
     if (apr_pchild) {
         apr_pool_destroy(apr_pchild);
         apr_pchild = NULL;
     }
+    //*/
+    apr_delete_child_pool();
+
     if (apr_pmain) {
         apr_pool_destroy(apr_pmain);
         apr_pmain = NULL;
     }
 }
+
+bool apr_malloc_test::apr_new_child_pool()
+{
+    // release child pool first
+    apr_delete_child_pool();
+
+    apr_status_t rv;
+    rv = apr_pool_create(&apr_pchild, apr_pmain);
+    assert(rv == APR_SUCCESS);
+    return (rv == APR_SUCCESS);
+}
+
+void apr_malloc_test::apr_delete_child_pool()
+{
+    if (apr_pchild) {
+        apr_pool_destroy(apr_pchild);
+        apr_pchild = NULL;
+    }
+}
+
 
 char * apr_malloc_test::GetFuncName( void )
 {
@@ -77,17 +101,36 @@ char * apr_malloc_test::GetFuncName( void )
 
 FORCE_INLINE void * apr_malloc_test::Malloc( size_t size )
 {
+#if 0
     assert(apr_pchild != NULL);
     if (apr_pchild != NULL)
         return apr_palloc(apr_pchild, size);
     else
         return NULL;
+#else
+    if (apr_pchild == NULL) {
+        apr_status_t rv;
+        rv = apr_pool_create(&apr_pchild, apr_pmain);
+        assert(rv == APR_SUCCESS);
+        if (rv == APR_SUCCESS) {
+            // create child pool success
+        }
+    }
+    assert(apr_pchild != NULL);
+    if (apr_pchild != NULL)
+        return apr_palloc(apr_pchild, size);
+    else
+        return NULL;
+#endif
 }
 
 FORCE_INLINE void apr_malloc_test::Free( void *p )
 {
-    if (apr_pchild != NULL)
-        apr_pool_clear(apr_pchild);
+    if (apr_pchild != NULL) {
+        //apr_pool_clear(apr_pchild);
+        apr_pool_destroy(apr_pchild);
+        apr_pchild = NULL;
+    }
 }
 
 FORCE_INLINE void * apr_malloc_test::Realloc( void *p, size_t new_size )
