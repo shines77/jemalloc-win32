@@ -23,7 +23,7 @@ static long g_regionsize = 0;
 void csinitialize(CRITICAL_SECTION *cs)
 {
     if (cs != NULL)
-        InitializeCriticalSection(cs);
+        InitializeCriticalSectionAndSpinCount(cs, 0x80000400UL);
 }
 
 /* Delete critical section */
@@ -50,8 +50,9 @@ int csleave(CRITICAL_SECTION *cs)
 /* Wait for spin lock */
 int slwait(int *sl)
 {
-    while (InterlockedCompareExchange((volatile long *)sl, (long)1, (long)0) != 0);
-    Sleep(0);
+    while (InterlockedCompareExchange((volatile long *)sl, (long)1, (long)0) != 0) {
+        Sleep(0);
+    }
     return 0;
 }
 

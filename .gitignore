@@ -45,6 +45,7 @@
 *.obj
 *.exe
 *.lib
+*.dll
 
 # For Visual Studio files on Windows
 *.user

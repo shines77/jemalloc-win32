@@ -1,33 +1,6 @@
 #define JEMALLOC_BITMAP_C_
 #include "jemalloc/internal/jemalloc_internal.h"
 
-#ifdef _MSC_VER
-
-#if 0
-/* find first bit set in a word */
-int
-ffs(int i)
-{
-    return 0;
-}
-
-/* find first bit set in a word */
-int
-ffsl(long int i)
-{
-    return 0;
-}
-
-/* find first bit set in a word */
-int
-ffsll(long long int i)
-{
-    return 0;
-}
-#endif
-
-#endif // !_MSC_VER
-
 /******************************************************************************/
 /* Function prototypes for non-inline static functions. */
 
