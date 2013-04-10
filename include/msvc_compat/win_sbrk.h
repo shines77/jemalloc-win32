@@ -89,7 +89,7 @@ static int region_list_append (region_list_entry **last, void *base_reserved, lo
         return FALSE;
     next->top_allocated = (char *) base_reserved;
     next->top_committed = (char *) base_reserved;
-    next->top_reserved = (char *) base_reserved + reserve_size;
+    next->top_reserved  = (char *) base_reserved + reserve_size;
     next->reserve_size = reserve_size;
     next->previous = *last;
     *last = next;
@@ -99,7 +99,7 @@ static int region_list_append (region_list_entry **last, void *base_reserved, lo
 /* Free and unlink the last region entry from the region list */
 static int region_list_remove (region_list_entry **last) {
     region_list_entry *previous = (*last)->previous;
-    if (! HeapFree (GetProcessHeap (), sizeof (region_list_entry), *last))
+    if (! HeapFree(GetProcessHeap(), sizeof(region_list_entry), *last))
         return FALSE;
     *last = previous;
     return TRUE;

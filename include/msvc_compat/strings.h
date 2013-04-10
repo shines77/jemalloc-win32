@@ -10,14 +10,24 @@
  * for both */
 #include <intrin.h>
 #pragma intrinsic(_BitScanForward)
+#ifdef _WIN64
+#pragma intrinsic(_BitScanForward64)
+#endif
 
 /*
  * MSVC doesn't define ffs/ffsl. and ffs/ffsl function name
  *  have a conflict when you use in C++ (Microsoft VC++),
  *  so define this to rename ffs/ffsl.
  */
+
+/* find first bit set in a word */
 #define ffs(x)          je_ffs(x)
+
+/* find first bit set in a word */
 #define ffsl(x)         je_ffsl(x)
+
+/* find first bit set in a word */
+#define ffsll(x)        je_ffsll(x)
 
 #endif  /* !_MSC_VER */
 
@@ -107,6 +117,19 @@ static __forceinline int je_ffsl(long x)
 static __forceinline int je_ffs(int x)
 {
     return (je_ffsl(x));
+}
+
+static __forceinline int je_ffsll(__int64 x)
+{
+    unsigned long i = 0;
+
+#ifdef _WIN64
+    if (_BitScanForward64(&i, (unsigned __int64)x))
+#else
+    if (__BitScanForward64(&i, (unsigned __int64)x))
+#endif
+        return (i + 1);
+    return (0);
 }
 
 #endif  /* !_MSC_VER */

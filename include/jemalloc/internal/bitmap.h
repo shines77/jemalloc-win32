@@ -51,15 +51,6 @@ size_t  bitmap_info_ngroups(const bitmap_info_t *binfo);
 size_t  bitmap_size(size_t nbits);
 void    bitmap_init(bitmap_t *bitmap, const bitmap_info_t *binfo);
 
-#ifdef _MSC_VER
-#if 0
-/* find first bit set in a word */
-int     ffs(int i);
-int     ffsl(long int i);
-int     ffsll(long long int i);
-#endif
-#endif // !_MSC_VER
-
 #endif /* JEMALLOC_H_EXTERNS */
 /******************************************************************************/
 #ifdef JEMALLOC_H_INLINES

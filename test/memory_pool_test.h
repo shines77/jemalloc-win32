@@ -19,8 +19,11 @@
 #define MAX(a, b)       (((a)>(b)) ? (a) : (b))
 #define MIN(a, b)       (((a)<(b)) ? (a) : (b))
 
-#define FORCE_INLINE    __inline
-//#define FORCE_INLINE
+#ifdef _MSC_VER
+#define FORCE_INLINE            __forceinline
+#else
+#define FORCE_INLINE            inline
+#endif
 
 #define MAX_TEXT_LEN            512
 #define MAX_LOG_FILENAME_LEN    260
