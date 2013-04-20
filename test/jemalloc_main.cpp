@@ -361,7 +361,8 @@ char *format_bytes_size(char *buf, size_t size, int len)
         return "";
 }
 
-double pool_malloc_tester(mem_pool_test *tester, mpool_test_data_t *test_params, int test_length)
+template<typename T>
+double pool_malloc_tester(T *tester, mpool_test_data_t *test_params, int test_length)
 {
     int i;
     double used_time, total_time, fmultiple;
@@ -373,7 +374,7 @@ double pool_malloc_tester(mem_pool_test *tester, mpool_test_data_t *test_params,
     if (tester != NULL && test_params != NULL) {
         if (test_length > 1) {
             // setting params
-            tester->setting(test_params[1].size_type, test_params[1].alloc_way,
+            tester->Setting(test_params[1].size_type, test_params[1].alloc_way,
                 test_params[1].min_alloc_size, test_params[1].max_alloc_size,
                 test_params[1].loop_count1, test_params[1].loop_count2, test_params[1].loop_count3);
             tester->Begin();
@@ -415,7 +416,7 @@ double pool_malloc_tester(mem_pool_test *tester, mpool_test_data_t *test_params,
             }
             // setting params
             fmultiple = (double)MAX_LOOP_COUNT / (double)test_params[i].loop_count1;
-            tester->setting(test_params[i].size_type, test_params[i].alloc_way,
+            tester->Setting(test_params[i].size_type, test_params[i].alloc_way,
                 test_params[i].min_alloc_size, test_params[i].max_alloc_size,
                 test_params[i].loop_count1, test_params[i].loop_count2, test_params[i].loop_count3);
             tester->Begin();
@@ -478,7 +479,7 @@ double pool_malloc_tester(mem_pool_test *tester, mpool_test_data_t *test_params,
             }
             // setting params
             fmultiple = (double)MAX_LOOP_COUNT / (double)test_params[i].loop_count1;
-            tester->setting(test_params[i].size_type, test_params[i].alloc_way,
+            tester->Setting(test_params[i].size_type, test_params[i].alloc_way,
                 test_params[i].min_alloc_size, test_params[i].max_alloc_size,
                 test_params[i].loop_count1, test_params[i].loop_count2, test_params[i].loop_count3);
             tester->Begin();
@@ -514,25 +515,24 @@ void Memory_Pool_Test()
 {
     int test_length;
     mpool_test_data_t *test_params;
-    mem_pool_test *tester;
 
     double time_orgi_malloc, time_je_malloc, time_tc_malloc, time_apr_malloc;
 
     // original malloc()
-    tester = new orig_malloc_test();
+    orig_malloc_test *orgi_tester = new orig_malloc_test();
     test_length = sizeof(orig_malloc_test_params) / sizeof(mpool_test_data_t);
     test_params = &orig_malloc_test_params[0];
-    time_orgi_malloc = pool_malloc_tester(tester, test_params, test_length);
-    if (tester)
-        delete tester;
+    time_orgi_malloc = pool_malloc_tester(orgi_tester, test_params, test_length);
+    if (orgi_tester)
+        delete orgi_tester;
 
     // je_malloc()
-    tester = new je_malloc_test();
+    je_malloc_test *je_tester = new je_malloc_test();
     test_length = sizeof(je_malloc_test_params) / sizeof(mpool_test_data_t);
     test_params = &je_malloc_test_params[0];
-    time_je_malloc = pool_malloc_tester(tester, test_params, test_length);
-    if (tester)
-        delete tester;
+    time_je_malloc = pool_malloc_tester(je_tester, test_params, test_length);
+    if (je_tester)
+        delete je_tester;
 
     mem_pool_printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
 #if defined(_LANG_ID) && (_LANG_ID == 1)
@@ -544,12 +544,12 @@ void Memory_Pool_Test()
     mem_pool_printf("\n");
 
     // tc_malloc()
-    tester = new tc_malloc_test();
+    tc_malloc_test *tc_tester = new tc_malloc_test();
     test_length = sizeof(apr_malloc_test_params) / sizeof(mpool_test_data_t);
     test_params = &apr_malloc_test_params[0];
-    time_tc_malloc = pool_malloc_tester(tester, test_params, test_length);
-    if (tester)
-        delete tester;
+    time_tc_malloc = pool_malloc_tester(tc_tester, test_params, test_length);
+    if (tc_tester)
+        delete tc_tester;
 
     mem_pool_printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
 #if defined(_LANG_ID) && (_LANG_ID == 1)
@@ -561,12 +561,12 @@ void Memory_Pool_Test()
     mem_pool_printf("\n");
 
     // apr_malloc()
-    tester = new apr_malloc_test();
+    apr_malloc_test *apr_tester = new apr_malloc_test();
     test_length = sizeof(apr_malloc_test_params) / sizeof(mpool_test_data_t);
     test_params = &apr_malloc_test_params[0];
-    time_apr_malloc = pool_malloc_tester(tester, test_params, test_length);
-    if (tester)
-        delete tester;
+    time_apr_malloc = pool_malloc_tester(apr_tester, test_params, test_length);
+    if (apr_tester)
+        delete apr_tester;
 
     mem_pool_printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
 #if defined(_LANG_ID) && (_LANG_ID == 1)

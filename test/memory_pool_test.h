@@ -140,7 +140,7 @@ public:
         int loop_count1_, int loop_count2_ = 0, int loop_count3_ = 0);
     virtual ~mem_pool_test_param();
 
-    void setting(size_types size_type_, alloc_ways alloc_way_,
+    void Setting(size_types size_type_, alloc_ways alloc_way_,
         int min_alloc_size_, int max_alloc_size_,
         int loop_count1_, int loop_count2_ = 0, int loop_count3_ = 0);
 
