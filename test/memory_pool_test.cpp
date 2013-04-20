@@ -264,7 +264,7 @@ mem_pool_test_param::~mem_pool_test_param()
 
 }
 
-void mem_pool_test_param::setting( size_types size_type_, alloc_ways alloc_way_,
+void mem_pool_test_param::Setting( size_types size_type_, alloc_ways alloc_way_,
                                 int min_alloc_size_, int max_alloc_size_,
                                 int loop_count1_,
                                 int loop_count2_ /*= 0*/,
