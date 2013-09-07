@@ -60,7 +60,14 @@ void *mmap(void *ptr, long size, long prot, long type, long handle, long arg);
 /* munmap for windows */
 long munmap(void *ptr, long size);
 
-/* sbrk for windows */
+#ifndef JEMALLOC_HAVE_SBRK
+
+void *
+sbrk(intptr_t increment);
+
+#else
+
+/* sbrk version for windows */
 void *sbrk_win(long size);
 
 /* sbrk for windows secondary version */
@@ -70,6 +77,8 @@ void *sbrk_simple(long size);
 #define sbrk    sbrk_simple
 #else
 #define sbrk    sbrk_win
+#endif
+
 #endif
 
 void vminfo(unsigned long *free, unsigned long *reserved, unsigned long *committed);

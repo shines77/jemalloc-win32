@@ -6,9 +6,13 @@
  */
 /* #undef JEMALLOC_PREFIX */
 /* #undef JEMALLOC_CPREFIX */
+#define JEMALLOC_PREFIX     " je_ "
+#define JEMALLOC_CPREFIX    " JE_ "
 
 //#define JEMALLOC_MANGLE
+#ifdef  JEMALLOC_MANGLE
 #undef  JEMALLOC_MANGLE
+#endif
 
 #define JEMALLOC_NO_DEMANGLE
 
@@ -20,7 +24,30 @@
  * these macro definitions.
  */
 
-#if 0
+#if 1
+#define je_malloc_conf          je_malloc_conf
+#define je_malloc_message       je_malloc_message
+#define je_malloc               je_malloc
+#define je_calloc               je_calloc
+#define je_posix_memalign       je_posix_memalign
+#define je_aligned_alloc        je_aligned_alloc
+#define je_realloc              je_realloc
+#define je_free                 je_free
+#define je_malloc_usable_size   je_malloc_usable_size
+#define je_malloc_stats_print   je_malloc_stats_print
+#define je_mallctl              je_mallctl
+#define je_mallctlnametomib     je_mallctlnametomib
+#define je_mallctlbymib         je_mallctlbymib
+//#define je_memalign             je_memalign
+//#define je_valloc               je_valloc
+/* #undef je_memalign */
+/* #undef je_valloc */
+#define je_allocm               je_allocm
+#define je_rallocm              je_rallocm
+#define je_sallocm              je_sallocm
+#define je_dallocm              je_dallocm
+#define je_nallocm              je_nallocm
+#else
 #define je_malloc_conf          malloc_conf
 #define je_malloc_message       malloc_message
 #define je_malloc               malloc
@@ -34,8 +61,10 @@
 #define je_mallctl              mallctl
 #define je_mallctlnametomib     mallctlnametomib
 #define je_mallctlbymib         mallctlbymib
-#define je_memalign             memalign
-#define je_valloc               valloc
+//#define je_memalign             memalign
+//#define je_valloc               valloc
+/* #undef je_memalign */
+/* #undef je_valloc */
 #define je_allocm               allocm
 #define je_rallocm              rallocm
 #define je_sallocm              sallocm
@@ -73,7 +102,7 @@
  * __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 not being defined (which means the
  * functions are defined in libgcc instead of being inlines)
  */
-/* #undef JE_FORCE_SYNC_COMPARE_AND_SWAP_4 */
+#define JE_FORCE_SYNC_COMPARE_AND_SWAP_4
 
 /*
  * Defined if __sync_add_and_fetch(uint64_t *, uint64_t) and
@@ -143,14 +172,17 @@
 #endif
 
 /* Defined if sbrk() is supported. */
-#define JEMALLOC_HAVE_SBRK
-
-/* Non-empty if the tls_model attribute is supported. */
-#define JEMALLOC_TLS_MODEL      __attribute__((tls_model("initial-exec")))
+#ifdef JEMALLOC_HAVE_SBRK
+#undef JEMALLOC_HAVE_SBRK
+#endif
 
 #ifdef _WIN32
-#undef JEMALLOC_TLS_MODEL
+//#undef JEMALLOC_TLS_MODEL
 #endif
+
+/* Non-empty if the tls_model attribute is supported. */
+#define JEMALLOC_TLS_MODEL
+//#define JEMALLOC_TLS_MODEL      __attribute__((tls_model("initial-exec")))
 
 /* JEMALLOC_CC_SILENCE enables code that silences unuseful compiler warnings. */
 /* #undef JEMALLOC_CC_SILENCE */
@@ -208,14 +240,16 @@
 /* #undef JEMALLOC_LAZY_LOCK */
 
 /* One page is 2^STATIC_PAGE_SHIFT bytes. */
-#define STATIC_PAGE_SHIFT   16
+//#define STATIC_PAGE_SHIFT   16
 #ifdef _WIN32
-#undef  STATIC_PAGE_SHIFT
+//#undef  STATIC_PAGE_SHIFT
 #define STATIC_PAGE_SHIFT   12
+#else
+#define STATIC_PAGE_SHIFT   16
 #endif
 
 #ifdef _WIN32
-#undef JEMALLOC_TLS_MODEL
+//#undef JEMALLOC_TLS_MODEL
 #endif
 
 /*
@@ -233,11 +267,11 @@
 /* #undef JEMALLOC_MREMAP */
 
 /* TLS is used to map arenas and magazine caches to threads. */
-#define JEMALLOC_TLS
+//#define JEMALLOC_TLS
 
-#ifdef _WIN32
-#undef  JEMALLOC_TLS
-#endif
+//#ifdef _WIN32
+//#undef  JEMALLOC_TLS
+//#endif
 
 /*
  * JEMALLOC_IVSALLOC enables ivsalloc(), which verifies that pointers reside
@@ -249,8 +283,8 @@
  * Define overrides for non-standard allocator-related functions if they
  * are present on the system.
  */
-#define JEMALLOC_OVERRIDE_MEMALIGN
-#define JEMALLOC_OVERRIDE_VALLOC
+/* #undef JEMALLOC_OVERRIDE_MEMALIGN */
+/* #undef JEMALLOC_OVERRIDE_VALLOC */
 
 /*
  * At least Linux omits the "const" in:

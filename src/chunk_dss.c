@@ -32,7 +32,6 @@ static void     *dss_max;
 static void *
 sbrk(intptr_t increment)
 {
-
     not_implemented();
 
     return (NULL);
