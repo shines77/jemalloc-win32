@@ -1,8 +1,10 @@
 #ifndef JEMALLOC_H_
 #define JEMALLOC_H_
 
+#ifndef _WIN32
 #include <limits.h>
 #include <strings.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
