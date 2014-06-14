@@ -1,5 +1,5 @@
 
-#include <vld.h>
+//#include <vld.h>
 
 #include <assert.h>
 #ifndef WIN32
@@ -111,6 +111,19 @@ mpool_test_data_t orig_malloc_test_params[] = {
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 23),  100000,     0,      0,
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 24),  100000,     0,      0,
 
+    // define random size and repeated alloca
+    ST_RANDOM_CONTIGUOUS, ALLOC_WAYS_NONE,      0,          0,          0,          0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          256,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          512,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          1024,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          2048,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          4096,       1000000,    0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 13),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 14),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 15),  1000000,    0,      0,
+
     // separator
     //ST_SEPARATOR,       ALLOC_WAYS_NONE,        0,          0,          0,          0,      0,
 };
@@ -204,6 +217,19 @@ mpool_test_data_t je_malloc_test_params[] = {
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 22),  100000,     0,      0,
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 23),  100000,     0,      0,
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 24),  100000,     0,      0,
+
+    // define random size and repeated alloca
+    ST_RANDOM_CONTIGUOUS, ALLOC_WAYS_NONE,      0,          0,          0,          0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          256,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          512,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          1024,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          2048,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          4096,       1000000,    0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 13),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 14),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 15),  1000000,    0,      0,
 
     // separator
     //ST_SEPARATOR,       ALLOC_WAYS_NONE,        0,          0,          0,          0,      0,
@@ -299,6 +325,19 @@ mpool_test_data_t apr_malloc_test_params[] = {
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 23),  1000000,    0,      0,
     ST_RANDOM_SIZE,     AW_REPEATED_ALLOC,      1,          (1 << 24),  1000000,    0,      0,
 
+    // define random size and repeated alloca
+    ST_RANDOM_CONTIGUOUS, ALLOC_WAYS_NONE,      0,          0,          0,          0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          256,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          512,        1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          1024,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          2048,       1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          4096,       1000000,    0,      0,
+
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 13),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 14),  1000000,    0,      0,
+    ST_RANDOM_SIZE,     AW_CONTIGUOUS_ALLOC,    1,          (1 << 15),  1000000,    0,      0,
+
     // separator
     //ST_SEPARATOR,       ALLOC_WAYS_NONE,        0,          0,          0,          0,      0,
 };
@@ -389,6 +428,18 @@ double pool_malloc_tester(T *tester, mpool_test_data_t *test_params, int test_le
         mem_pool_printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n");
         for (i = 0; i < test_length; i++) {
             if (test_params[i].size_type == ST_SEPARATOR) {
+                mem_pool_printf("----------------------------------------------------------------\n");
+                continue;
+            }
+            else if (test_params[i].size_type == ST_FIXED_CONTIGUOUS) {
+                mem_pool_printf("----------------------------------------------------------------\n");
+                mem_pool_printf("  分配方式: 分配大小固定, 重复分配 (延迟释放, 每1024次批量释放)\n");
+                mem_pool_printf("----------------------------------------------------------------\n");
+                continue;
+            }
+            else if (test_params[i].size_type == ST_RANDOM_CONTIGUOUS) {
+                mem_pool_printf("----------------------------------------------------------------\n");
+                mem_pool_printf("  分配方式: 分配大小随机, 重复分配 (延迟释放, 每1024次批量释放)\n");
                 mem_pool_printf("----------------------------------------------------------------\n");
                 continue;
             }

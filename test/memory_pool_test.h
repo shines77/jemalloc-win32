@@ -49,6 +49,9 @@ typedef enum _size_types
     ST_FIXED_REPEATED,          // fixed size and repeated alloca
     ST_CONTI_REPEATED,          // continuous size and repeated alloca
     ST_RANDOM_REPEATED,         // random size and repeated alloca
+
+    ST_FIXED_CONTIGUOUS,        // AW_CONTIGUOUS_ALLOC
+    ST_RANDOM_CONTIGUOUS,       // AW_CONTIGUOUS_ALLOC
 } size_types;
 
 typedef enum _alloc_ways

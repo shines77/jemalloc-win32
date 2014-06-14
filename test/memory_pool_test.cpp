@@ -79,6 +79,72 @@ char *str_replace(const char *strbuf, const char *sstr, const char *dstr)
     return new_str;
 }
 
+/************************************************************************
+ *
+ * C string replace function
+ * Descript: return a replacement string,
+ *      exhausted after use free () to release.
+ *   If the call succeeds returns a pointer that point the string is
+ *      replaced with the new, returns NULL if it fails
+ *
+ * C 字符串替换函数
+ * 描述: 返回一个替换以后的字符串, 用完之后要用free()释放
+ *       如果调用成功返回指向被替换后新字符串的指针, 如果失败返回NULL
+ *
+ ************************************************************************/
+char *str_replace(const char *str_buf, const char *src_str, const char *dst_str, bool repeat)
+{
+    char *new_str = NULL, *next;
+    unsigned int len, str_len, src_len, dst_len;
+    register unsigned int i = 0;
+    char *dup_buf;
+
+    if ((str_buf == NULL) || (src_str == NULL) || (dst_str == NULL))
+        return NULL;
+
+    dup_buf = (char *)str_buf;
+    src_len = strlen(src_str);
+    while (strstr(dup_buf, src_str) != NULL){
+        dup_buf = strstr(dup_buf, src_str) + src_len;
+        i++;
+        if (!repeat)
+            break;
+    }
+
+    if (i != 0) {
+        dup_buf = (char *)str_buf;
+        str_len = strlen(str_buf);
+        dst_len = strlen(dst_str);
+        len = (str_len - (src_len - dst_len) * i + 1) * sizeof(char);
+        new_str = (char *)malloc(len);
+        if (new_str != NULL) {
+            //new_str[0] = '\0';
+            memset(new_str, 0, len);
+            while ((next = strstr(dup_buf, src_str)) != NULL) {
+                new_str = strncat(new_str, dup_buf, (next - dup_buf));
+                new_str = strcat(new_str, dst_str);
+                dup_buf = next + src_len;
+                if (!repeat)
+                    break;
+            }
+            new_str = strcat(new_str, dup_buf);
+            return new_str;
+        }
+    }
+    else {
+        str_len = strlen(str_buf);
+        len = (str_len + 1) * sizeof(char);
+        new_str = (char *)malloc(len);
+        if (new_str != NULL) {
+            new_str[0] = '\0';
+            //memset(new_str, 0, len);
+            new_str = strcpy(new_str, str_buf);
+            return new_str;
+        }
+    }
+    return new_str;
+}
+
 #ifndef PATH_MAX
 #define PATH_MAX    1024
 #endif
@@ -319,7 +385,10 @@ void mem_pool_test::RunTest( void )
     //const int nMaxAlloc = 10000;
 #endif
 
+    const int kMaxMemList = 1024;
+
     int i, j = 0;
+    int imax, jmax;
     size_t alloc_size;
     void *p;
     if (size_type == ST_FIXED_SIZE && alloc_way == AW_REPEATED_ALLOC) {
@@ -359,6 +428,44 @@ void mem_pool_test::RunTest( void )
             p = Malloc(alloc_size);
             if (p)
                 Free(p);
+        }
+    }
+    else if (size_type == ST_FIXED_SIZE && alloc_way == AW_CONTIGUOUS_ALLOC) {
+        void *mem_list[kMaxMemList];
+        alloc_size = MAX(1, min_alloc_size);
+        imax = loop_count1 / kMaxMemList;
+        jmax = kMaxMemList;
+        for (i = 0; i < imax; i++) {
+            for (j = 0; j < jmax; j++) {
+                p = Malloc(min_alloc_size);
+                mem_list[j] = p;
+            }
+            for (j = 0; j < jmax; j++) {
+                p = mem_list[j];
+                if (p)
+                    Free(p);
+            }
+        }
+    }
+    else if (size_type == ST_RANDOM_SIZE && alloc_way == AW_CONTIGUOUS_ALLOC) {
+        void *mem_list[kMaxMemList];
+        size_t rnd;
+        size_t max_alloc = max_alloc_size - min_alloc_size + 1;
+        imax = loop_count1 / kMaxMemList;
+        jmax = kMaxMemList;
+        for (i = 0; i < imax; i++) {
+            for (j = 0; j < jmax; j++) {
+                rnd = get_rand();
+                alloc_size = (rnd % max_alloc) + min_alloc_size;
+                //alloc_size = MAX(1, alloc_size);
+                p = Malloc(alloc_size);
+                mem_list[j] = p;
+            }
+            for (j = 0; j < jmax; j++) {
+                p = mem_list[j];
+                if (p)
+                    Free(p);
+            }
         }
     }
 }

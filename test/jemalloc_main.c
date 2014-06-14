@@ -1,5 +1,5 @@
 
-#include <vld.h>
+//#include <vld.h>
 
 #include <assert.h>
 #ifndef WIN32
