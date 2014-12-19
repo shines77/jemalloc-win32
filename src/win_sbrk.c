@@ -1,5 +1,9 @@
+
 #define JEMALLOC_WIN_SBRK_C_
+
 #include "jemalloc/internal/jemalloc_internal.h"
+
+#ifdef _MSC_VER
 
 //#include <windows.h>
 
@@ -115,7 +119,7 @@ mmap_exit:
 }
 
 /* munmap for windows */
-long munmap(void *ptr, long size)
+long munmap(void *ptr, intptr_t size)
 {
     int rc = MUNMAP_FAILURE;
     /* Wait for spin lock */
@@ -140,7 +144,7 @@ munmap_exit:
 /* UNIX sbrk has two main tasks: increasing and decreasing a best try contiguous memory arena for malloc/free. */
 
 /* sbrk for windows */
-void *sbrk_win(long size)
+void *sbrk_win(intptr_t size)
 {
     static long g_my_pagesize;
     static long g_my_regionsize;
@@ -165,19 +169,19 @@ void *sbrk_win(long size)
     /* Allocation requested? */
     if (size >= 0) {
         /* Allocation size is the requested size */
-        long allocate_size = size;
+        intptr_t allocate_size = size;
         /* Compute the size to commit */
-        long to_commit = (char *)g_last->top_allocated + allocate_size - (char *)g_last->top_committed;
+        intptr_t to_commit = (char *)g_last->top_allocated + allocate_size - (char *)g_last->top_committed;
         /* Do we reach the commit limit? */
         if (to_commit > 0) {
             /* Round size to commit */
             long commit_size = CEIL(to_commit, g_my_pagesize);
             /* Compute the size to reserve */
-            long to_reserve = (char *)g_last->top_committed + commit_size - (char *)g_last->top_reserved;
+            intptr_t to_reserve = (char *)g_last->top_committed + commit_size - (char *)g_last->top_reserved;
             /* Do we reach the reserve limit? */
             if (to_reserve > 0) {
                 /* Compute the remaining size to commit in the current region */
-                long remaining_commit_size = (char *)g_last->top_reserved - (char *)g_last->top_committed;
+                intptr_t remaining_commit_size = (char *)g_last->top_reserved - (char *)g_last->top_committed;
                 if (remaining_commit_size > 0) {
                     /* Commit this */
                     void *base_committed = VirtualAlloc(g_last->top_committed, remaining_commit_size,
@@ -239,7 +243,7 @@ void *sbrk_win(long size)
                     }
                     /* Did we get contiguous memory? */
                     if (contiguous) {
-                        long start_size = (char *)g_last->top_committed - (char *)g_last->top_allocated;
+                        intptr_t start_size = (char *)g_last->top_committed - (char *)g_last->top_allocated;
                         /* Adjust allocation size */
                         allocate_size -= start_size;
                         /* Adjust the regions allocation top */
@@ -280,16 +284,15 @@ void *sbrk_win(long size)
     }
     else {
         if (size < 0) {
-            long deallocate_size = - size;
+            intptr_t deallocate_size = -size;
             /* As long as we have a region to release */
             while ((char *)g_last->top_allocated - deallocate_size < (char *)g_last->top_reserved - g_last->reserve_size) {
                 /* Get the size to release */
-                long release_size = g_last->reserve_size;
+                intptr_t release_size = g_last->reserve_size;
                 /* Get the base address */
                 void *base_reserved = (char *)g_last->top_reserved - release_size;
                 /* Release this */
-                int rc = VirtualFree(base_reserved, 0,
-                                     MEM_RELEASE);
+                int rc = VirtualFree(base_reserved, 0, MEM_RELEASE);
                 /* Check returned code for consistency */
                 if (! rc) {
                     goto sbrk_exit;
@@ -302,7 +305,7 @@ void *sbrk_win(long size)
                 }
             } {
                 /* Compute the size to decommit */
-                long to_decommit = (char *)g_last->top_committed - ((char *)g_last->top_allocated - deallocate_size);
+                intptr_t to_decommit = (char *)g_last->top_committed - ((char *)g_last->top_allocated - deallocate_size);
                 if (to_decommit >= g_my_pagesize) {
                     /* Compute the size to decommit */
                     long decommit_size = FLOOR(to_decommit, g_my_pagesize);
@@ -340,7 +343,7 @@ sbrk_exit:
 }
 
 /* sbrk for windows secondary version */
-void *sbrk_simple(long size)
+void *sbrk_simple(intptr_t size)
 {
     static long g_my_pagesize;
     static long g_my_regionsize;
@@ -365,9 +368,9 @@ void *sbrk_simple(long size)
     /* Allocation requested? */
     if (size >= 0) {
         /* Allocation size is the requested size */
-        long allocate_size = size;
+        intptr_t allocate_size = size;
         /* Compute the size to commit */
-        long to_reserve = (char *)g_last->top_allocated + allocate_size - (char *)g_last->top_reserved;
+        intptr_t to_reserve = (char *)g_last->top_allocated + allocate_size - (char *)g_last->top_reserved;
         /* Do we reach the commit limit? */
         if (to_reserve > 0) {
             /* Now we are going to search and reserve. */
@@ -375,7 +378,7 @@ void *sbrk_simple(long size)
             int found = FALSE;
             MEMORY_BASIC_INFORMATION memory_info;
             void *base_reserved;
-            long reserve_size;
+            intptr_t reserve_size;
             do {
                 /* Assume contiguous memory */
                 contiguous = TRUE;
@@ -420,7 +423,7 @@ void *sbrk_simple(long size)
             }
             /* Did we get contiguous memory? */
             if (contiguous) {
-                long start_size = (char *)g_last->top_reserved - (char *)g_last->top_allocated;
+                intptr_t start_size = (char *)g_last->top_reserved - (char *)g_last->top_allocated;
                 /* Adjust allocation size */
                 allocate_size -= start_size;
                 /* Adjust the regions allocation top */
@@ -438,11 +441,11 @@ void *sbrk_simple(long size)
     }
     else {
         if (size < 0) {
-            long deallocate_size = - size;
+            intptr_t deallocate_size = - size;
             /* As long as we have a region to release */
             while ((char *)g_last->top_allocated - deallocate_size < (char *)g_last->top_reserved - g_last->reserve_size) {
                 /* Get the size to release */
-                long release_size = g_last->reserve_size;
+                intptr_t release_size = g_last->reserve_size;
                 /* Get the base address */
                 void *base_reserved = (char *)g_last->top_reserved - release_size;
                 /* Release this */
@@ -453,7 +456,7 @@ void *sbrk_simple(long size)
                     goto sbrk_exit;
                 }
                 /* Adjust deallocation size */
-                deallocate_size -= (char *)g_last->top_allocated - (char *) base_reserved;
+                deallocate_size -= (char *)g_last->top_allocated - (char *)base_reserved;
                 /* Remove the old region from the list */
                 if (! region_list_remove(&g_last)) {
                     goto sbrk_exit;
@@ -481,7 +484,7 @@ sbrk_exit:
 
 /* The following helpers may aid you in gathering memory or CPU statistics on Windows. */
 
-void vminfo(unsigned long *free, unsigned long *reserved, unsigned long *committed)
+void vminfo(size_t *free, size_t *reserved, size_t *committed)
 {
     MEMORY_BASIC_INFORMATION memory_info;
     memory_info.BaseAddress = 0;
@@ -506,7 +509,7 @@ int cpuinfo(int whole, unsigned long *kernel, unsigned long *user)
 {
     if (whole) {
         __int64 creation64, exit64, kernel64, user64;
-        int rc = GetProcessTimes(GetCurrentProcess (),
+        int rc = GetProcessTimes(GetCurrentProcess(),
                                   (FILETIME *) &creation64,
                                   (FILETIME *) &exit64,
                                   (FILETIME *) &kernel64,
@@ -522,7 +525,7 @@ int cpuinfo(int whole, unsigned long *kernel, unsigned long *user)
     }
     else {
         __int64 creation64, exit64, kernel64, user64;
-        int rc = GetThreadTimes(GetCurrentThread (),
+        int rc = GetThreadTimes(GetCurrentThread(),
                                  (FILETIME *) &creation64,
                                  (FILETIME *) &exit64,
                                  (FILETIME *) &kernel64,
@@ -538,4 +541,4 @@ int cpuinfo(int whole, unsigned long *kernel, unsigned long *user)
     }
 }
 
-/******************************************************************************/
+#endif  /* _MSC_VER */

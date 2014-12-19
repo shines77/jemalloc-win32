@@ -33,12 +33,8 @@
 #error "Use this header only with Microsoft Visual C++ compilers!"
 #endif // _MSC_VER ]
 
-#ifndef _STDINT_H // [
-#define _STDINT_H
-
-#ifndef _MSC_STDINT_H_ // [
-#define _MSC_STDINT_H_
-
+#ifndef _STDINT // [
+#define _STDINT
 
 #if _MSC_VER > 1000
 #pragma once
@@ -245,28 +241,7 @@ typedef uint64_t  uintmax_t;
 #define INTMAX_C   INT64_C
 #define UINTMAX_C  UINT64_C
 
-#else
-
-// 7.18.4.1 Macros for minimum-width integer constants
-
-#define INT8_C(val)  val##i8
-#define INT16_C(val) val##i16
-#define INT32_C(val) val##i32
-#define INT64_C(val) val##i64
-
-#define UINT8_C(val)  val##ui8
-#define UINT16_C(val) val##ui16
-#define UINT32_C(val) val##ui32
-#define UINT64_C(val) val##ui64
-
-// 7.18.4.2 Macros for greatest-width integer constants
-#define INTMAX_C   INT64_C
-#define UINTMAX_C  UINT64_C
-
 #endif // __STDC_CONSTANT_MACROS ]
 
 
 #endif // _MSC_STDINT_H_ ]
-
-#endif // _STDINT_H ]
-

@@ -2,19 +2,19 @@
 #ifdef JEMALLOC_H_TYPES
 
 /* Size of stack-allocated buffer passed to buferror(). */
-#define BUFERROR_BUF        64
+#define	BUFERROR_BUF		64
 
 /*
  * Size of stack-allocated buffer used by malloc_{,v,vc}printf().  This must be
  * large enough for all possible uses within jemalloc.
  */
-#define MALLOC_PRINTF_BUFSIZE   4096
+#define	MALLOC_PRINTF_BUFSIZE	4096
 
 /*
  * Wrap a cpp argument that contains commas such that it isn't broken up into
  * multiple arguments.
  */
-#define JEMALLOC_CONCAT(...) __VA_ARGS__
+#define	JEMALLOC_ARG_CONCAT(...) __VA_ARGS__
 
 /*
  * Silence compiler warnings due to uninitialized values.  This is used
@@ -27,65 +27,53 @@
 #  define JEMALLOC_CC_SILENCE_INIT(v)
 #endif
 
-#include <limits.h>
-
-#ifndef INTMAX_MIN
-#define INTMAX_MIN      _I64_MIN
-#endif
-
-#ifndef INTMAX_MAX
-#define INTMAX_MAX      _I64_MAX
-#endif
-
-#ifndef UINTMAX_MAX
-#define UINTMAX_MAX     _UI64_MAX
-#endif
-
 /*
  * Define a custom assert() in order to reduce the chances of deadlock during
  * assertion failure.
  */
 #ifndef assert
-#define assert(e) do {                          \
-    if (config_debug && !(e)) {                 \
-        malloc_printf(                      \
-            "<jemalloc>: %s:%d: Failed assertion: \"%s\"\n",    \
-            __FILE__, __LINE__, #e);                \
-        abort();                        \
-    }                               \
+#define	assert(e) do {							\
+	if (config_debug && !(e)) {					\
+		malloc_printf(						\
+		    "<jemalloc>: %s:%d: Failed assertion: \"%s\"\n",	\
+		    __FILE__, __LINE__, #e);				\
+		abort();						\
+	}								\
 } while (0)
 #endif
 
-/* Use to assert a particular configuration, e.g., cassert(config_debug). */
-#define cassert(c) do {                         \
-    if ((c) == false)                       \
-        assert(false);                      \
-} while (0)
-
 #ifndef not_reached
-#define not_reached() do {                      \
-    if (config_debug) {                     \
-        malloc_printf(                      \
-            "<jemalloc>: %s:%d: Unreachable code reached\n",    \
-            __FILE__, __LINE__);                \
-        abort();                        \
-    }                               \
+#define	not_reached() do {						\
+	if (config_debug) {						\
+		malloc_printf(						\
+		    "<jemalloc>: %s:%d: Unreachable code reached\n",	\
+		    __FILE__, __LINE__);				\
+		abort();						\
+	}								\
 } while (0)
 #endif
 
 #ifndef not_implemented
-#define not_implemented() do {                      \
-    if (config_debug) {                     \
-        malloc_printf("<jemalloc>: %s:%d: Not implemented\n",   \
-            __FILE__, __LINE__);                \
-        abort();                        \
-    }                               \
+#define	not_implemented() do {						\
+	if (config_debug) {						\
+		malloc_printf("<jemalloc>: %s:%d: Not implemented\n",	\
+		    __FILE__, __LINE__);				\
+		abort();						\
+	}								\
 } while (0)
 #endif
 
-#define assert_not_implemented(e) do {                  \
-    if (config_debug && !(e))                   \
-        not_implemented();                  \
+#ifndef assert_not_implemented
+#define	assert_not_implemented(e) do {					\
+	if (config_debug && !(e))					\
+		not_implemented();					\
+} while (0)
+#endif
+
+/* Use to assert a particular configuration, e.g., cassert(config_debug). */
+#define	cassert(c) do {							\
+	if ((c) == false)						\
+		not_reached();						\
 } while (0)
 
 #endif /* JEMALLOC_H_TYPES */
@@ -96,23 +84,24 @@
 /******************************************************************************/
 #ifdef JEMALLOC_H_EXTERNS
 
-int buferror(char *buf, size_t buflen);
-uintmax_t   malloc_strtoumax(const char *nptr, char **endptr, int base);
-void    malloc_write(const char *s);
+int	buferror(int err, char *buf, size_t buflen);
+uintmax_t	malloc_strtoumax(const char *__RESTRICT nptr,
+    char **__RESTRICT endptr, int base);
+void	malloc_write(const char *s);
 
 /*
  * malloc_vsnprintf() supports a subset of snprintf(3) that avoids floating
  * point math.
  */
-int malloc_vsnprintf(char *str, size_t size, const char *format,
+int	malloc_vsnprintf(char *str, size_t size, const char *format,
     va_list ap);
-int malloc_snprintf(char *str, size_t size, const char *format, ...)
+int	malloc_snprintf(char *str, size_t size, const char *format, ...)
     JEMALLOC_ATTR(format(printf, 3, 4));
-void    malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque,
+void	malloc_vcprintf(void (*write_cb)(void *, const char *), void *cbopaque,
     const char *format, va_list ap);
 void malloc_cprintf(void (*write)(void *, const char *), void *cbopaque,
     const char *format, ...) JEMALLOC_ATTR(format(printf, 3, 4));
-void    malloc_printf(const char *format, ...)
+void	malloc_printf(const char *format, ...)
     JEMALLOC_ATTR(format(printf, 1, 2));
 
 #endif /* JEMALLOC_H_EXTERNS */
@@ -120,10 +109,9 @@ void    malloc_printf(const char *format, ...)
 #ifdef JEMALLOC_H_INLINES
 
 #ifndef JEMALLOC_ENABLE_INLINE
-size_t  pow2_ceil(size_t x);
-void    malloc_write(const char *s);
-void    set_errno(int errnum);
-int get_errno(void);
+size_t	pow2_ceil(size_t x);
+void	set_errno(int errnum);
+int	get_errno(void);
 #endif
 
 #if (defined(JEMALLOC_ENABLE_INLINE) || defined(JEMALLOC_UTIL_C_))
@@ -131,27 +119,29 @@ int get_errno(void);
 JEMALLOC_INLINE size_t
 pow2_ceil(size_t x)
 {
-    x--;
-    x |= x >> 1;
-    x |= x >> 2;
-    x |= x >> 4;
-    x |= x >> 8;
-    x |= x >> 16;
+
+	x--;
+	x |= x >> 1;
+	x |= x >> 2;
+	x |= x >> 4;
+	x |= x >> 8;
+	x |= x >> 16;
 #if (LG_SIZEOF_PTR == 3)
-    x |= x >> 32;
+	x |= x >> 32;
 #endif
-    x++;
-    return (x);
+	x++;
+	return (x);
 }
 
 /* Sets error code */
 JEMALLOC_INLINE void
 set_errno(int errnum)
 {
+
 #ifdef _WIN32
-    SetLastError(errnum);
+	SetLastError(errnum);
 #else
-    errno = errnum;
+	errno = errnum;
 #endif
 }
 
@@ -159,10 +149,11 @@ set_errno(int errnum)
 JEMALLOC_INLINE int
 get_errno(void)
 {
+
 #ifdef _WIN32
-    return (GetLastError());
+	return (GetLastError());
 #else
-    return (errno);
+	return (errno);
 #endif
 }
 #endif

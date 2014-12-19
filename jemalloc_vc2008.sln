@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jemalloc_test", "projects\jemalloc_test\proj.win32\vc2008\jemalloc_test.vcproj", "{B6B88045-9ABC-4785-B65B-F3621D949524}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B897E33-6428-4254-8335-4911D179BAD1} = {8B897E33-6428-4254-8335-4911D179BAD1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jemalloc_example", "projects\jemalloc_example\proj.win32\vc2008\jemalloc_example.vcproj", "{AF47FAD1-03E1-4D03-8B37-EE0B38F25B56}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B897E33-6428-4254-8335-4911D179BAD1} = {8B897E33-6428-4254-8335-4911D179BAD1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjemalloc", "projects\jemalloc\proj.win32\vc2008\jemalloc.vcproj", "{8B897E33-6428-4254-8335-4911D179BAD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B897E33-6428-4254-8335-4911D179BAD1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8B897E33-6428-4254-8335-4911D179BAD1}.Debug|Win32.Build.0 = Debug|Win32
+		{8B897E33-6428-4254-8335-4911D179BAD1}.Release|Win32.ActiveCfg = Release|Win32
+		{8B897E33-6428-4254-8335-4911D179BAD1}.Release|Win32.Build.0 = Release|Win32
+		{B6B88045-9ABC-4785-B65B-F3621D949524}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B6B88045-9ABC-4785-B65B-F3621D949524}.Debug|Win32.Build.0 = Debug|Win32
+		{B6B88045-9ABC-4785-B65B-F3621D949524}.Release|Win32.ActiveCfg = Release|Win32
+		{B6B88045-9ABC-4785-B65B-F3621D949524}.Release|Win32.Build.0 = Release|Win32
+		{AF47FAD1-03E1-4D03-8B37-EE0B38F25B56}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AF47FAD1-03E1-4D03-8B37-EE0B38F25B56}.Debug|Win32.Build.0 = Debug|Win32
+		{AF47FAD1-03E1-4D03-8B37-EE0B38F25B56}.Release|Win32.ActiveCfg = Release|Win32
+		{AF47FAD1-03E1-4D03-8B37-EE0B38F25B56}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
