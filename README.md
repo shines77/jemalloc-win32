@@ -1,4 +1,4 @@
-jemalloc-win32-3.6.0
+jemalloc-win32
 ====================
 
 jemalloc 3.6.0 for Visual Studio 2008, 2010, and 2013 on Windows.
@@ -28,6 +28,6 @@ URL: http://www.canonware.com/jemalloc/
 
 Visual Studio(Windows) version modified by: shines77 (GuoXiongHui)
 
-URL: https://github.com/shines77/
+URL: https://github.com/shines77/jemalloc-win32/
 
 -------------------------------------------------------------------
