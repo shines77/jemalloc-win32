@@ -33,10 +33,10 @@
 #error "Use this header only with Microsoft Visual C++ compilers!"
 #endif // _MSC_VER ]
 
-#ifndef _MSC_INTTYPES_H_ // [
-#define _MSC_INTTYPES_H_
+#ifndef _INTTYPES // [
+#define _INTTYPES
 
-#if _MSC_VER > 1000
+#if _MSC_VER > 1020
 #pragma once
 #endif
 
@@ -309,5 +309,4 @@ imaxdiv_t __cdecl imaxdiv(intmax_t numer, intmax_t denom)
 #define wcstoimax _wcstoi64
 #define wcstoumax _wcstoui64
 
-
-#endif // _MSC_INTTYPES_H_ ]
+#endif // _INTTYPES ]

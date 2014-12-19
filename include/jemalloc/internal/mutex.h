@@ -6,17 +6,17 @@ typedef struct malloc_mutex_s malloc_mutex_t;
 #ifdef _WIN32
 #  define MALLOC_MUTEX_INITIALIZER
 #elif (defined(JEMALLOC_OSSPIN))
-#  define MALLOC_MUTEX_INITIALIZER      {0}
+#  define MALLOC_MUTEX_INITIALIZER {0}
 #elif (defined(JEMALLOC_MUTEX_INIT_CB))
-#  define MALLOC_MUTEX_INITIALIZER      {PTHREAD_MUTEX_INITIALIZER, NULL}
+#  define MALLOC_MUTEX_INITIALIZER {PTHREAD_MUTEX_INITIALIZER, NULL}
 #else
-#  if (defined(PTHREAD_MUTEX_ADAPTIVE_NP) &&                \
+#  if (defined(PTHREAD_MUTEX_ADAPTIVE_NP) &&				\
        defined(PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP))
-#    define MALLOC_MUTEX_TYPE           PTHREAD_MUTEX_ADAPTIVE_NP
-#    define MALLOC_MUTEX_INITIALIZER    {PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP}
+#    define MALLOC_MUTEX_TYPE PTHREAD_MUTEX_ADAPTIVE_NP
+#    define MALLOC_MUTEX_INITIALIZER {PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP}
 #  else
-#    define MALLOC_MUTEX_TYPE           PTHREAD_MUTEX_DEFAULT
-#    define MALLOC_MUTEX_INITIALIZER    {PTHREAD_MUTEX_INITIALIZER}
+#    define MALLOC_MUTEX_TYPE PTHREAD_MUTEX_DEFAULT
+#    define MALLOC_MUTEX_INITIALIZER {PTHREAD_MUTEX_INITIALIZER}
 #  endif
 #endif
 
@@ -26,14 +26,14 @@ typedef struct malloc_mutex_s malloc_mutex_t;
 
 struct malloc_mutex_s {
 #ifdef _WIN32
-    CRITICAL_SECTION    lock;
+	CRITICAL_SECTION	lock;
 #elif (defined(JEMALLOC_OSSPIN))
-    OSSpinLock          lock;
+	OSSpinLock		lock;
 #elif (defined(JEMALLOC_MUTEX_INIT_CB))
-    pthread_mutex_t     lock;
-    malloc_mutex_t      *postponed_next;
+	pthread_mutex_t		lock;
+	malloc_mutex_t		*postponed_next;
 #else
-    pthread_mutex_t     lock;
+	pthread_mutex_t		lock;
 #endif
 };
 
@@ -60,37 +60,39 @@ bool    mutex_boot(void);
 #ifdef JEMALLOC_H_INLINES
 
 #ifndef JEMALLOC_ENABLE_INLINE
-void    malloc_mutex_lock(malloc_mutex_t *mutex);
-void    malloc_mutex_unlock(malloc_mutex_t *mutex);
+void	malloc_mutex_lock(malloc_mutex_t *mutex);
+void	malloc_mutex_unlock(malloc_mutex_t *mutex);
 #endif
 
 #if (defined(JEMALLOC_ENABLE_INLINE) || defined(JEMALLOC_MUTEX_C_))
 JEMALLOC_INLINE void
 malloc_mutex_lock(malloc_mutex_t *mutex)
 {
-    if (isthreaded) {
+
+	if (isthreaded) {
 #ifdef _WIN32
-        EnterCriticalSection(&mutex->lock);
+		EnterCriticalSection(&mutex->lock);
 #elif (defined(JEMALLOC_OSSPIN))
-        OSSpinLockLock(&mutex->lock);
+		OSSpinLockLock(&mutex->lock);
 #else
-        pthread_mutex_lock(&mutex->lock);
+		pthread_mutex_lock(&mutex->lock);
 #endif
-    }
+	}
 }
 
 JEMALLOC_INLINE void
 malloc_mutex_unlock(malloc_mutex_t *mutex)
 {
-    if (isthreaded) {
+
+	if (isthreaded) {
 #ifdef _WIN32
-        LeaveCriticalSection(&mutex->lock);
+		LeaveCriticalSection(&mutex->lock);
 #elif (defined(JEMALLOC_OSSPIN))
-        OSSpinLockUnlock(&mutex->lock);
+		OSSpinLockUnlock(&mutex->lock);
 #else
-        pthread_mutex_unlock(&mutex->lock);
+		pthread_mutex_unlock(&mutex->lock);
 #endif
-    }
+	}
 }
 #endif
 
