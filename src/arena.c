@@ -1464,13 +1464,24 @@ arena_tcache_fill_small(arena_t *arena, tcache_bin_t *tbin, size_t binind,
 	bin = &arena->bins[binind];
 	malloc_mutex_lock(&bin->lock);
 	for (i = 0, nfill = (tcache_bin_info[binind].ncached_max >>
-	    tbin->lg_fill_div); i < nfill; i++) {
+		tbin->lg_fill_div); i < nfill; i++) {
 		if ((run = bin->runcur) != NULL && run->nfree > 0)
 			ptr = arena_run_reg_alloc(run, &arena_bin_info[binind]);
 		else
 			ptr = arena_bin_malloc_hard(arena, bin);
-		if (ptr == NULL)
+		if (ptr == NULL) {
+			/*
+			 * OOM.	 tbin->avail isn't yet filled down to its first
+			 * element,	so the successful allocations (if any) must
+			 * be moved	to the base	of tbin->avail before bailing
+			 * out.
+			 */
+			if (i >	0) {
+				memmove(tbin->avail, &tbin->avail[nfill	- i],
+					i *	sizeof(void	*));
+			}
 			break;
+		}
 		if (config_fill && opt_junk) {
 			arena_alloc_junk_small(ptr, &arena_bin_info[binind],
 			    true);

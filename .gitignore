@@ -19,7 +19,7 @@
 
 /lib/
 
-/Makefile
+# /Makefile
 
 # /include/jemalloc/internal/jemalloc_internal.h
 # /include/jemalloc/internal/jemalloc_internal_defs.h
@@ -100,6 +100,7 @@
 *.swp
 
 # For Visual Studio files on Windows
+*.exp
 *.user
 *.ncb
 *.aps
@@ -167,6 +168,8 @@ IcUpdateLog.htm
 /gen/
 /tmp/
 /temp/
+!/build/ReadMe.txt
+/build/*/
 
 # For Visual Studio 2013 temp files on Windows
 *.tlog
