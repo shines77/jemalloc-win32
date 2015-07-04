@@ -224,15 +224,6 @@
     <ClInclude Include="..\..\..\..\include\jemalloc\internal\util.h">
       <Filter>include\jemalloc\internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\msvc_compat\inttypes.h">
-      <Filter>include\msvc_compat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\msvc_compat\stdbool.h">
-      <Filter>include\msvc_compat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\msvc_compat\stdint.h">
-      <Filter>include\msvc_compat</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\include\msvc_compat\strings.h">
       <Filter>include\msvc_compat</Filter>
     </ClInclude>
