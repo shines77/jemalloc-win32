@@ -5,14 +5,14 @@
 #endif
 
 /* Support the experimental API. */
-#define JEMALLOC_EXPERIMENTAL
+//#define JEMALLOC_EXPERIMENTAL
 
 /*
  * Define overrides for non-standard allocator-related functions if they are
  * present on the system.
  */
-#define JEMALLOC_OVERRIDE_MEMALIGN
-#define JEMALLOC_OVERRIDE_VALLOC
+//#define JEMALLOC_OVERRIDE_MEMALIGN
+//#define JEMALLOC_OVERRIDE_VALLOC
 
 /*
  * At least Linux omits the "const" in:
