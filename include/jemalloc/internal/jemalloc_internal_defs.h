@@ -78,10 +78,10 @@
 /* #undef JEMALLOC_MUTEX_INIT_CB */
 
 /* Defined if sbrk() is supported. */
-#define JEMALLOC_HAVE_SBRK 
+#define JEMALLOC_HAVE_SBRK
 
 /* Non-empty if the tls_model attribute is supported. */
-#define JEMALLOC_TLS_MODEL 
+#define JEMALLOC_TLS_MODEL
 
 /* JEMALLOC_CC_SILENCE enables code that silences unuseful compiler warnings. */
 /* #undef JEMALLOC_CC_SILENCE */
@@ -96,7 +96,7 @@
 /* #undef JEMALLOC_DEBUG */
 
 /* JEMALLOC_STATS enables statistics calculation. */
-#define JEMALLOC_STATS 
+//#define JEMALLOC_STATS 
 
 /* JEMALLOC_PROF enables allocation profiling. */
 /* #undef JEMALLOC_PROF */
@@ -115,7 +115,7 @@
  * This makes it possible to allocate/deallocate objects without any locking
  * when the cache is in the steady state.
  */
-#define JEMALLOC_TCACHE 
+#define JEMALLOC_TCACHE
 
 /*
  * JEMALLOC_DSS enables use of sbrk(2) to allocate chunks from the data storage
