@@ -186,7 +186,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\..\src;..\..\..\..\src\jemalloc;..\..\..\..\include;..\..\..\..\include\jemalloc;..\..\..\..\test;..\..\..\..\deps;$(SolutionDir)src;$(SolutionDir)include;.\src;.\include;.\include\jemalloc;.\test;.\deps;$(ProjectDir)src;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>JEMALLOC_LAZY_LOCK;ARMA_EXTENSION;DLLEXPORT;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_STATIC;ARMA_EXTENSION;DLLEXPORT;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
