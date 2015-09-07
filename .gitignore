@@ -132,6 +132,7 @@
 /x64-Debug/
 /x64-Release/
 !/deps/
+/.vs/
 
 # For Visual Studio Update File
 UpgradeLog.XML
