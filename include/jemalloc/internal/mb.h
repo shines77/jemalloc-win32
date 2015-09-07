@@ -17,7 +17,9 @@
 void	mb_write(void);
 #endif
 
+#ifdef _WIN32
 #include "Winnt.h"
+#endif
 
 #if (defined(JEMALLOC_ENABLE_INLINE) || defined(JEMALLOC_MB_C_))
 #ifdef __i386__
