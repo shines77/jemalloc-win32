@@ -377,7 +377,7 @@ char *format_bytes_size(char *buf, size_t size, int len)
                     num = size / KB_;
                     strcpy(unit, "KB");
                 }
-                sprintf(buf, "%3d %s", num, unit);
+                sprintf(buf, "%3zd %s", num, unit);
             }
             else {
                 sprintf(fmt, "%%%dd", 3);
