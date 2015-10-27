@@ -17,6 +17,10 @@
 void	mb_write(void);
 #endif
 
+#ifdef _WIN32
+#include "Winnt.h"
+#endif
+
 #if (defined(JEMALLOC_ENABLE_INLINE) || defined(JEMALLOC_MB_C_))
 #ifdef __i386__
 /*
@@ -93,6 +97,13 @@ mb_write(void)
 {
 
 	__sync_synchronize();
+}
+#elif (defined(_MSC_VER) && _M_IX86_FP > 0 && defined(_M_IX86))
+JEMALLOC_INLINE void
+mb_write(void)
+{
+
+  __asm SFENCE
 }
 #else
 /*

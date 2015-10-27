@@ -11,9 +11,9 @@
 #include "lang_def.h"
 
 #include "jemalloc/jemalloc.h"
-#include "msvc_compat/stdint.h"
 
 #include <stdio.h>
+#include <stdint.h>
 
 ////////////////////////////////////////////////////
 // class malloc_tester

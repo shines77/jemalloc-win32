@@ -35,11 +35,7 @@
 
 #include "jemalloc_test.h"
 
-#ifdef _MSC_VER
-#include "msvc_compat/stdint.h"
-#else
 #include <stdint.h>
-#endif
 
 #if _WIN32 || _WIN64
 #include <time.h>

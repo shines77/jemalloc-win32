@@ -132,6 +132,9 @@
 /x64-Debug/
 /x64-Release/
 !/deps/
+/.vs/
+/bin/vc2013/
+/bin/vc2015/
 
 # For Visual Studio Update File
 UpgradeLog.XML

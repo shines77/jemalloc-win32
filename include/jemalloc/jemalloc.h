@@ -7,14 +7,14 @@
 #endif
 
 /* Support the experimental	API. */
-#define	JEMALLOC_EXPERIMENTAL
+//#define	JEMALLOC_EXPERIMENTAL
 
 /*
  * Define overrides	for	non-standard allocator-related functions if	they are
  * present on the system.
  */
-#define	JEMALLOC_OVERRIDE_MEMALIGN
-#define	JEMALLOC_OVERRIDE_VALLOC
+//#define	JEMALLOC_OVERRIDE_MEMALIGN
+//#define	JEMALLOC_OVERRIDE_VALLOC
 
 /*
  * At least	Linux omits	the	"const"	in:
@@ -76,13 +76,11 @@
 
 #define __STDC_FORMAT_MACROS    // For PRIXPTR in <inttypes.h>
 
-#ifndef	_MSC_VER
 #include <stdint.h>
 #include <inttypes.h>
+#ifndef	_MSC_VER
 #include <strings.h>
 #else
-#include "msvc_compat/stdint.h"
-#include "msvc_compat/inttypes.h"
 #include "msvc_compat/strings.h"
 #endif	// _MSC_VER
 

@@ -30,11 +30,7 @@
 #endif
 #include <stdarg.h>
 
-#ifdef _MSC_VER
-#include "msvc_compat/stdbool.h"
-#else
 #include <stdbool.h>
-#endif  /* _MSC_VER */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,11 +46,7 @@
 #  define offsetof(type, member)	((size_t)&(((type *)NULL)->member))
 #endif
 
-#ifdef _MSC_VER
-#include "msvc_compat/inttypes.h"
-#else
 #include <inttypes.h>
-#endif  /* _MSC_VER */
 
 #include <string.h>
 #ifdef _MSC_VER

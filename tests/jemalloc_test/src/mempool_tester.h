@@ -8,10 +8,10 @@
 
 #include "jemalloc_test.h"
 
-#include "msvc_compat/stdint.h"
 #include "stop_watch.h"
 
 #include <stdio.h>
+#include <stdint.h>
 
 using namespace jimi;
 
