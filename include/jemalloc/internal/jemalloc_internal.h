@@ -3,11 +3,17 @@
 #include <math.h>
 #ifdef _WIN32
 #  include <windows.h>
+#  undef ENOENT
 #  define ENOENT ERROR_PATH_NOT_FOUND
+#  undef EINVAL
 #  define EINVAL ERROR_BAD_ARGUMENTS
+#  undef EAGAIN
 #  define EAGAIN ERROR_OUTOFMEMORY
+#  undef EPERM
 #  define EPERM  ERROR_WRITE_FAULT
+#  undef EFAULT
 #  define EFAULT ERROR_INVALID_ADDRESS
+#  undef ENOMEM
 #  define ENOMEM ERROR_NOT_ENOUGH_MEMORY
 #  undef ERANGE
 #  define ERANGE ERROR_INVALID_DATA
