@@ -122,6 +122,7 @@
 *.suo
 *.sdf
 *.opensdf
+*.opendb
 *.sln.old
 *.sln_old
 # *.vcxproj.user
